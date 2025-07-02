@@ -87,6 +87,22 @@
               Login
             </button>
             <div class="text-center text-white my-4 font-montserrat">or</div>
+            {# djlint:off #}
+            <div id="g_id_onload"
+              data-client_id="125665665723-ugcjbos5lgcpdk6ss9rpvjcrl48a2jlk.apps.googleusercontent.com"
+              data-context="signin"
+              data-ux_mode="popup"
+              data-login_uri="http://localhost:8000/accounts/google/login/callback/"
+              data-auto_prompt="false">
+            </div>
+            {# djlint:on #}
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="left"></div>
           </form>
         </div>
       </div>
