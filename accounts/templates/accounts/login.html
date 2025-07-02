@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <title>JeepMap | Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+          content="Login to your JeepMap account to access personalized features and services." />
+    <meta name="keywords"
+          content="JeepMap, login, account, authentication, user" />
+    <meta http-equiv="Cache-Control"
+          content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.svg' %}" />
+    <link href="{% static 'dist/styles.css' %}" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  </head>
+  <body class="bg-[#0E343E] min-h-screen flex items-center justify-center">
+    <!-- Wrapper -->
+    <div class="absolute inset-0 bg-cover bg-center"
+         style="background-image: url('{% static "images/backgroundofthestudy.png" %}');
+                opacity: .20"></div>
+    <div class="flex flex-col md:flex-row w-full  min-h-[70vh] md:min-h-[70vh] relative z-10">
+      <!-- Left Side -->
+      <div class="select-none md:flex-1 w-full flex flex-col items-center justify-center px-4 md:pl-8">
+        <img src="{% static 'images/Logo.svg' %}"
+             alt="JeepMap Logo"
+             width="192"
+             height="192"
+             draggable="false"
+             class="w-24 sm:w-24 md:w-48 lg:w-64 xl:w-80 mb-4 md:mb-6 md:transition-all md:duration-300 md:ease-in-out" />
+      </div>
+      <!-- Divider line for md and up -->
+      <div class="select-none hidden md:block w-px bg-gray-400"></div>
+      <!-- Right Side -->
+      <div class="md:w-3/5 w-full flex flex-col items-center justify-center">
+        <div class="flex flex-col items-center min-h-[40vh] sm:min-h-[45vh] md:min-h-[50vh] w-full px-4 sm:px-8">
+          <h2 class="select-none text-white text-3xl md:text-4xl font-bold mb-2 font-montserrat">Welcome Back</h2>
+          <p class="select-none text-white mb-12 text-center text-lg font-bold font-montserrat">
+            Glad to have you back. Let's continue where you left off
+          </p>
+          <form method="post" class="w-full max-w-[400px]">
+            {% csrf_token %}
+            <div class="select-none relative mb-8 bg-white">
+              <label class="absolute text-[#5E6366]  mb-1 text-sm pl-4 pt-2">Email</label>
+              <input type="text"
+                     name="username"
+                     placeholder="Your email"
+                     class="w-full px-4 bg-white border-none pt-7 text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+            </div>
+            <div class="select-none mb-8">
+              <div class="relative bg-white">
+                <label class="absolute text-[#4a4a4b] mb-1 text-sm pl-4 pt-2">Password</label>
+                <input type="password"
+                       name="password"
+                       id="password-input"
+                       placeholder="Your secure password"
+                       class="w-full px-4 bg-white border-none pt-7 text-gray-800 pr-12 focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+                <!-- Eye toggle button -->
+                <button type="button"
+                        id="toggle-password"
+                        tabindex="-1"
+                        class="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 bg-transparent"
+                        data-openeye="{% static 'images/openeye.svg' %}"
+                        data-closedeye="{% static 'images/closedeye.svg' %}">
+                  <img id="eye-icon"
+                       src="{% static 'images/closedeye.svg' %}"
+                       alt="Show password"
+                       width="auto"
+                       height="auto"
+                       class="w-7 h-7 select-none pointer-events-none"
+                       draggable="false" />
+                </button>
+                <div id="client-error" class="text-red-500 mb-2"></div>
+              </div>
+              {% if messages %}
+                {% for message in messages %}<p class="text-red-500 mb-2">{{ message }}</p>{% endfor %}
+              {% endif %}
+            </div>
+            <button type="submit"
+                    class="select-none w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-4 font-montserrat ">
+              Login
+            </button>
+            <div class="text-center text-white my-4 font-montserrat">or</div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+    <style>
+        input[type="password"]::-ms-reveal {
+            display: none;
+        }
+    </style>
+    <script src="{% static 'accounts/login.js' %}"></script>
+  </body>
+</html>
