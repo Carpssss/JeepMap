@@ -1,5 +1,5 @@
-
-
-<p align="center" style="background-color:#f0f0f0; padding:10px;">
- ![JeepMap Logo](theme/static/images/favicon.svg) ![JeepMap Logo](theme/static/images/favicon.svg) ![JeepMap Logo](theme/static/images/favicon.svg) ![JeepMap Logo](theme/static/images/favicon.svg)
+<p align="center">
+  <img src="theme/static/images/favicon.svg" alt="JeepMap Logo" width="200"/>
+ <img src="theme/static/images/favicon.svg" alt="JeepMap Logo" width="200"/>
+ <img src="theme/static/images/favicon.svg" alt="JeepMap Logo" width="200"/>
 </p>
