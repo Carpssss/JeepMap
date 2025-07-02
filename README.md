@@ -1,3 +1,1 @@
-# JeepMap
-
-![JeepMap Logo](theme/static/images/Logo.svg)
+# JeepMap ![JeepMap Logo](theme/static/images/favicon.svg)
