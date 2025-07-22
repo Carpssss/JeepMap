@@ -1,0 +1,319 @@
+<!-- sidebar.html -->
+{% load static %}
+<div x-data="{ sidebarOpen: window.innerWidth >= 768, handleResize() { this.sidebarOpen = window.innerWidth >= 768; } }"
+     x-init=" window.addEventListener('resize', () => handleResize()); handleResize(); ">
+    <button @click="sidebarOpen = !sidebarOpen"
+            class="md:hidden fixed top-4 left-4 z-50 bg-[#0E343E] text-white p-2 rounded focus:outline-none"
+            aria-label="Open sidebar"
+            x-show="!sidebarOpen">
+        <!-- Simple burger icon -->
+        <svg class="w-6 h-6"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+    <aside class="bg-[#0E343E] text-white w-64 min-h-screen flex flex-col fixed md:relative z-40 sidebar-position"
+           :class="{'-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen, 'md:translate-x-0': true}"
+           x-show="sidebarOpen || window.innerWidth >= 768"
+           @click.away="sidebarOpen = false"
+           x-transition:enter="transition ease-out duration-300"
+           x-transition:enter-start="-translate-x-full"
+           x-transition:enter-end="translate-x-0"
+           x-transition:leave="transition ease-in duration-200"
+           x-transition:leave-start="translate-x-0"
+           x-transition:leave-end="-translate-x-full">
+        <div class="flex items-center justify-between h-auto pt-1 sm:pt-3 border-[#1C404A] pr-2 sm:pr-0 ">
+            <img src="{% static 'images/sidebarlogo.svg' %}"
+                 alt="JeepMap Logo"
+                 class="w-48 md:w-auto h-16 sm:h-19"
+                 height="auto"
+                 width="auto">
+            <!-- Close button, only on small screens and when sidebar is open -->
+            <button @click="sidebarOpen = false"
+                    x-show="sidebarOpen && window.innerWidth < 768"
+                    class="md:hidden mr-2 text-white bg-[#0E343E] hover:text-[#F9BE4A] rounded-full p-2 focus:outline-none transition"
+                    aria-label="Close sidebar">
+                <svg class="w-4 h-4"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <nav class="flex-1 py-2 space-y-2">
+            <!-- Dashboard -->
+            <a href="{% url 'home' %}"
+               class="flex items-center space-x-3 px-5 py-2 font-semibold font-montserrat-alternates transition group {% if request.resolver_match.url_name == 'home' %} bg-[#F9BE4A] text-[#0E343E] font-semibold {% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] hover:font-semibold {% endif %}">
+                <svg width="19"
+                     height="20"
+                     viewBox="0 0 19 20"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg"
+                     class="transition-colors duration-200 group-hover:text-[#0E343E] {% if request.resolver_match.url_name == 'home' %} text-[#0E343E] {% else %} text-white {% endif %}">
+                    <g clip-path="url(#clip0_2455_261)">
+                    <path d="M0 1.98779C0 1.67285 0.125111 1.3708 0.347811 1.1481C0.57051 0.925404 0.872555 0.800293 1.1875 0.800293L7.125 0.800293C7.43994 0.800293 7.74199 0.925404 7.96469 1.1481C8.18739 1.3708 8.3125 1.67285 8.3125 1.98779V18.6128C8.3125 18.9277 8.18739 19.2298 7.96469 19.4525C7.74199 19.6752 7.43994 19.8003 7.125 19.8003H1.1875C0.872555 19.8003 0.57051 19.6752 0.347811 19.4525C0.125111 19.2298 0 18.9277 0 18.6128V1.98779ZM10.6875 1.98779C10.6875 1.67285 10.8126 1.3708 11.0353 1.1481C11.258 0.925404 11.5601 0.800293 11.875 0.800293L17.8125 0.800293C18.1274 0.800293 18.4295 0.925404 18.6522 1.1481C18.8749 1.3708 19 1.67285 19 1.98779V7.92529C19 8.24024 18.8749 8.54228 18.6522 8.76498C18.4295 8.98768 18.1274 9.11279 17.8125 9.11279H11.875C11.5601 9.11279 11.258 8.98768 11.0353 8.76498C10.8126 8.54228 10.6875 8.24024 10.6875 7.92529V1.98779ZM10.6875 12.6753C10.6875 12.3603 10.8126 12.0583 11.0353 11.8356C11.258 11.6129 11.5601 11.4878 11.875 11.4878H17.8125C18.1274 11.4878 18.4295 11.6129 18.6522 11.8356C18.8749 12.0583 19 12.3603 19 12.6753V18.6128C19 18.9277 18.8749 19.2298 18.6522 19.4525C18.4295 19.6752 18.1274 19.8003 17.8125 19.8003H11.875C11.5601 19.8003 11.258 19.6752 11.0353 19.4525C10.8126 19.2298 10.6875 18.9277 10.6875 18.6128V12.6753Z" fill="currentColor" />
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_2455_261">
+                    <rect width="19" height="19" fill="white" transform="translate(0 0.800293)" />
+                    </clipPath>
+                    </defs>
+                </svg>
+                <span class="pt-1{% if request.resolver_match.url_name == 'home' %} font-semibold {% else %} hover:text-[#0E343E]{% endif %}">Dashboard</span>
+            </a>
+            <!-- Operation Dropdown -->
+            <div x-data="{ open: false }" class="relative">
+                <button type="button"
+                        @click="open = !open"
+                        :class="{'bg-[#FFE9AC] text-[#0E343E]': open}"
+                        class="group w-full flex justify-between items-center  px-5 py-2 font-semibold font-montserrat-alternates transition {% if request.resolver_match.url_name in 'crew_master administrator schedule_master vehicle_master routes_fares' %} bg-[#F9BE4A] text-[#0E343E] font-semibold{% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                    <div class="flex items-center space-x-3">
+                        <svg width="19"
+                             height="20"
+                             viewBox="0 0 19 20"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_2455_193)">
+                            <path d="M0 3.17529C0 2.5454 0.250223 1.94131 0.695621 1.49591C1.14102 1.05052 1.74511 0.800293 2.375 0.800293L16.625 0.800293C17.2549 0.800293 17.859 1.05052 18.3044 1.49591C18.7498 1.94131 19 2.5454 19 3.17529V17.4253C19 18.0552 18.7498 18.6593 18.3044 19.1047C17.859 19.5501 17.2549 19.8003 16.625 19.8003H2.375C1.74511 19.8003 1.14102 19.5501 0.695621 19.1047C0.250223 18.6593 0 18.0552 0 17.4253V3.17529Z" :class="[open ? 'fill-[#0E343E]':'fill-white transition-colors duration-200 group-hover:fill-[#0E343E]']" class="
+                            {% if request.resolver_match.url_name in 'crew_master administrator schedule_master vehicle_master routes_fares' %}
+                                fill-[#0E343E]
+                            {% endif %}
+                            " />
+                            </g>
+                            <g clip-path="url(#clip1_2455_193)">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.6124 4.79817C10.2854 3.68984 8.71475 3.68984 8.38779 4.79817L8.30862 5.06734C8.25977 5.23326 8.1744 5.38616 8.05877 5.5148C7.94313 5.64344 7.80018 5.74456 7.64037 5.81076C7.48057 5.87696 7.30798 5.90655 7.13525 5.89736C6.96252 5.88818 6.79404 5.84045 6.64216 5.75767L6.39675 5.62309C5.38104 5.0705 4.27033 6.18121 4.82371 7.19613L4.9575 7.44234C5.31058 8.0915 4.97571 8.89979 4.26716 9.10879L3.998 9.18796C2.88966 9.51492 2.88966 11.0856 3.998 11.4125L4.26716 11.4917C4.43309 11.5406 4.58598 11.6259 4.71462 11.7416C4.84326 11.8572 4.94439 12.0002 5.01059 12.16C5.07679 12.3198 5.10638 12.4924 5.09719 12.6651C5.08801 12.8378 5.04027 13.0063 4.9575 13.1582L4.82291 13.4036C4.27033 14.4193 5.38104 15.53 6.39596 14.9766L6.64216 14.8428C6.79404 14.7601 6.96252 14.7123 7.13525 14.7031C7.30798 14.694 7.48057 14.7235 7.64037 14.7897C7.80018 14.8559 7.94313 14.9571 8.05877 15.0857C8.1744 15.2143 8.25977 15.3672 8.30862 15.5332L8.38779 15.8023C8.71475 16.9107 10.2854 16.9107 10.6124 15.8023L10.6915 15.5332C10.7404 15.3672 10.8258 15.2143 10.9414 15.0857C11.057 14.9571 11.2 14.8559 11.3598 14.7897C11.5196 14.7235 11.6922 14.694 11.8649 14.7031C12.0376 14.7123 12.2061 14.7601 12.358 14.8428L12.6034 14.9774C13.6191 15.53 14.7298 14.4193 14.1765 13.4044L14.0427 13.1582C13.9599 13.0063 13.9122 12.8378 13.903 12.6651C13.8938 12.4924 13.9234 12.3198 13.9896 12.16C14.0558 12.0002 14.1569 11.8572 14.2855 11.7416C14.4142 11.6259 14.5671 11.5406 14.733 11.4917L15.0022 11.4125C16.1105 11.0856 16.1105 9.51492 15.0022 9.18796L14.733 9.10879C14.5671 9.05994 14.4142 8.97457 14.2855 8.85894C14.1569 8.74331 14.0558 8.60035 13.9896 8.44054C13.9234 8.28074 13.8938 8.10815 13.903 7.93542C13.9122 7.7627 13.9599 7.59421 14.0427 7.44234L14.1772 7.19692C14.7298 6.18121 13.6191 5.0705 12.6042 5.62388L12.358 5.75767C12.2061 5.84045 12.0376 5.88818 11.8649 5.89736C11.6922 5.90655 11.5196 5.87696 11.3598 5.81076C11.2 5.74456 11.057 5.64344 10.9414 5.5148C10.8258 5.38616 10.7404 5.23326 10.6915 5.06734L10.6124 4.79817ZM9.50008 12.6198C10.1153 12.6198 10.7053 12.3755 11.1403 11.9404C11.5753 11.5054 11.8197 10.9154 11.8197 10.3003C11.8197 9.68506 11.5753 9.09507 11.1403 8.66006C10.7053 8.22505 10.1153 7.98067 9.50008 7.98067C8.8851 7.98067 8.29531 8.22497 7.86045 8.65983C7.42559 9.09469 7.18129 9.68448 7.18129 10.2995C7.18129 10.9144 7.42559 11.5042 7.86045 11.9391C8.29531 12.374 8.8851 12.6183 9.50008 12.6183V12.6198Z" :class="[open ? 'fill-[#FFE9AC]':'fill-[#0E343E] transition-colors duration-200 group-hover:fill-[#FFE9AC]']" class="
+                            {% if request.resolver_match.url_name in 'crew_master administrator schedule_master vehicle_master routes_fares' %}
+                                fill-[#F9BE4A]
+                            {% endif %}
+                            " />
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_2455_193">
+                            <rect width="19" height="19" fill="white" transform="translate(0 0.800293)" />
+                            </clipPath>
+                            <clipPath id="clip1_2455_193">
+                            <rect width="12.6667" height="12.6667" fill="white" transform="translate(3.16675 3.96692)" />
+                            </clipPath>
+                            </defs>
+                        </svg>
+                        <span class="pt-1{% if request.resolver_match.url_name == 'crew_master administrator schedule_master vehicle_master routes_fares' %} font-semibold {% else %} group-hover:text-[#0E343E] group-hover:font-semibold {% endif %}">Operation</span>
+                    </div>
+                    <svg :class="{'rotate-180': open}"
+                         class="w-4 h-4 ml-2 transition-transform"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M19 9c-2.5 2.5-5 5-7 7-2-2-4.5-4.5-7-7" />
+                    </svg>
+                </button>
+                <div x-show="open"
+                     x-cloak
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 -translate-y-0"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 -translate-y-0"
+                     class="space-y-1 bg-[#1C404A]">
+                    <a href="#"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'administrator' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        <span class="pl-9">Administrator</span>
+                    </a>
+                    <a href="#"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'crew_master' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        <span class="pl-9">Crew Master</span>
+                    </a>
+                    <a href="#"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'schedule_master' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        <span class="pl-9">Schedule Master</span>
+                    </a>
+                    <a href="#"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'vehicle_master' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        <span class="pl-9">Vehicle Master</span>
+                    </a>
+                    <a href="#"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'routes_fares' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        <span class="pl-9">Routes & Fares</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Waybill Dropdown -->
+            <div x-data="{ open: false }" class="relative">
+                <button type="button"
+                        @click="open = !open"
+                        :class="{'bg-[#FFE9AC] text-[#0E343E]': open}"
+                        class="group w-full flex justify-between items-center  px-5 py-2 font-semibold font-montserrat-alternates transition {% if request.resolver_match.url_name in 'collection new_waybill' %} bg-[#F9BE4A] text-[#0E343E] {% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                    <div class="flex items-center space-x-3">
+                        <svg width="18"
+                             height="20"
+                             viewBox="0 0 18 20"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_2455_48)">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M15 0.800293H3C2.20435 0.800293 1.44129 1.05052 0.87868 1.49591C0.31607 1.94131 0 2.5454 0 3.17529V7.92529H18V3.17529C18 2.5454 17.6839 1.94131 17.1213 1.49591C16.5587 1.05052 15.7957 0.800293 15 0.800293ZM18 9.11279H12V11.4878H18V9.11279ZM18 12.6753H12V15.0503H18V12.6753ZM18 16.2378H12V19.8003H15C15.7957 19.8003 16.5587 19.5501 17.1213 19.1047C17.6839 18.6593 18 18.0552 18 17.4253V16.2378ZM10.5 19.8003V16.2378H6V19.8003H10.5ZM4.5 19.8003V16.2378H0V17.4253C0 18.0552 0.31607 18.6593 0.87868 19.1047C1.44129 19.5501 2.20435 19.8003 3 19.8003H4.5ZM0 15.0503H4.5V12.6753H0V15.0503ZM0 11.4878H4.5V9.11279H0V11.4878ZM6 11.4878V9.11279H10.5V11.4878H6ZM6 12.6753H10.5V15.0503H6V12.6753Z" :class="[open ? 'fill-[#0E343E]':'fill-white transition-colors duration-200 group-hover:fill-[#0E343E]']" class="
+                            {% if request.resolver_match.url_name == 'collection new_waybill' %}fill-[#0E343E]{% endif %}
+                            " />
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_2455_48">
+                            <rect width="18" height="19" fill="white" transform="translate(0 0.800293)" />
+                            </clipPath>
+                            </defs>
+                        </svg>
+                        <span class="pt-1{% if request.resolver_match.url_name == 'collection new_waybill' %} font-semibold {% else %} group-hover:text-[#0E343E] group-hover:font-semibold{% endif %}">Waybill</span>
+                    </div>
+                    <svg :class="{'rotate-180': open}"
+                         class="w-4 h-4 ml-2 transition-transform"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M19 9c-2.5 2.5-5 5-7 7-2-2-4.5-4.5-7-7" />
+                    </svg>
+                </button>
+                <div x-show="open"
+                     x-cloak
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 -translate-y-0"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 -translate-y-0"
+                     class="space-y-1 bg-[#1C404A]">
+                    <a href="#"
+                       class="block px-4 py-2 w-full text-sm transition {% if request.resolver_match.url_name == 'collection' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        <span class="pl-9">Collection</span>
+                    </a>
+                    <a href="#"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'new_waybill' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        <span class="pl-9">New Waybill</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Reports Dropdown -->
+            <div x-data="{ open: false }" class="relative">
+                <button type="button"
+                        @click="open = !open"
+                        :class="{'bg-[#FFE9AC] text-[#0E343E]': open}"
+                        class="group w-full flex justify-between items-center  px-5 py-2 font-semibold transition {% if request.resolver_match.url_name in 'waybill_signoff waybill_summary' %} bg-[#F9BE4A] text-[#0E343E] {% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                    <div class="flex items-center space-x-3">
+                        <svg width="19"
+                             height="20"
+                             viewBox="0 0 19 20"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_2455_281)">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0.5 3.17529C0.5 2.5454 0.81607 1.94131 1.37868 1.49591C1.94129 1.05052 2.70435 0.800293 3.5 0.800293L11.4395 0.800293C11.8373 0.80036 12.2188 0.925516 12.5 1.14823L18.0605 5.55029C18.3418 5.77294 18.4999 6.07494 18.5 6.38986V17.4253C18.5 18.0552 18.1839 18.6593 17.6213 19.1047C17.0587 19.5501 16.2956 19.8003 15.5 19.8003H3.5C2.70435 19.8003 1.94129 19.5501 1.37868 19.1047C0.81607 18.6593 0.5 18.0552 0.5 17.4253V3.17529ZM11 5.55029L11.75 2.58154L16.25 6.14404L12.5 6.73779C12.1022 6.73779 11.7206 6.61268 11.4393 6.38998C11.158 6.16728 11 5.86524 11 5.55029ZM4.25 10.3003C4.05109 10.3003 3.86032 10.3628 3.71967 10.4742C3.57902 10.5855 3.5 10.7366 3.5 10.894C3.5 11.0515 3.57902 11.2025 3.71967 11.3139C3.86032 11.4252 4.05109 11.4878 4.25 11.4878H14.75C14.9489 11.4878 15.1397 11.4252 15.2803 11.3139C15.421 11.2025 15.5 11.0515 15.5 10.894C15.5 10.7366 15.421 10.5855 15.2803 10.4742C15.1397 10.3628 14.9489 10.3003 14.75 10.3003H4.25ZM3.5 13.269C3.5 13.1116 3.57902 12.9605 3.71967 12.8492C3.86032 12.7378 4.05109 12.6753 4.25 12.6753H14.75C14.9489 12.6753 15.1397 12.7378 15.2803 12.8492C15.421 12.9605 15.5 13.1116 15.5 13.269C15.5 13.4265 15.421 13.5775 15.2803 13.6889C15.1397 13.8002 14.9489 13.8628 14.75 13.8628H4.25C4.05109 13.8628 3.86032 13.8002 3.71967 13.6889C3.57902 13.5775 3.5 13.4265 3.5 13.269ZM3.5 15.644C3.5 15.4866 3.57902 15.3355 3.71967 15.2242C3.86032 15.1128 4.05109 15.0503 4.25 15.0503H10.25C10.4489 15.0503 10.6397 15.1128 10.7803 15.2242C10.921 15.3355 11 15.4866 11 15.644C11 15.8015 10.921 15.9525 10.7803 16.0639C10.6397 16.1752 10.4489 16.2378 10.25 16.2378H4.25C4.05109 16.2378 3.86032 16.1752 3.71967 16.0639C3.57902 15.9525 3.5 15.8015 3.5 15.644Z" :class="[open ? 'fill-[#0E343E]':'fill-white transition-colors duration-200 group-hover:fill-[#0E343E]']" class="
+                            {% if request.resolver_match.url_name == 'waybill_signoff waybill_summary' %}fill-[#0E343E]{% endif %}
+                            " />
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_2455_281">
+                            <rect width="18" height="19" fill="none" transform="translate(0.5 0.800293)" />
+                            </clipPath>
+                            </defs>
+                        </svg>
+                        <span class="pt-0.5{% if request.resolver_match.url_name == 'waybill_signoff waybill_summary' %} font-semibold {% else %} hover:text-[#0E343E] {% endif %}">Reports</span>
+                    </div>
+                    <svg :class="{'rotate-180': open}"
+                         class="w-4 h-4 ml-2 transition-transform"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M19 9c-2.5 2.5-5 5-7 7-2-2-4.5-4.5-7-7" />
+                    </svg>
+                </button>
+                <div x-show="open"
+                     x-cloak
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 -translate-y-0"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 -translate-y-0"
+                     class="space-y-1 bg-[#1C404A]">
+                    <a href="#"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'waybill_signoff' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        <span class="pl-9">Waybill Signoff</span>
+                    </a>
+                    <a href="#"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'waybill_summary' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        <span class="pl-9">Waybill Summary</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Settingscript -->
+            <a href="#"
+               class="block group px-5 py-2 font-semibold transition {% if request.resolver_match.url_name == 'settings' %} bg-[#F9BE4A] text-[#0E343E] {% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] text-white {% endif %}">
+                <div class="flex items-center space-x-3">
+                    <svg width="19"
+                         height="20"
+                         viewBox="0 0 19 20"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_2455_230)">
+                        <path d="M0 3.17529C0 2.5454 0.250223 1.94131 0.695621 1.49591C1.14102 1.05052 1.74511 0.800293 2.375 0.800293L16.625 0.800293C17.2549 0.800293 17.859 1.05052 18.3044 1.49591C18.7498 1.94131 19 2.5454 19 3.17529V17.4253C19 18.0552 18.7498 18.6593 18.3044 19.1047C17.859 19.5501 17.2549 19.8003 16.625 19.8003H2.375C1.74511 19.8003 1.14102 19.5501 0.695621 19.1047C0.250223 18.6593 0 18.0552 0 17.4253V3.17529Z" class="fill-white transition-colors duration-200 group-hover:fill-[#0E343E]
+                        {% if request.resolver_match.url_name in 'settings' %}
+                            fill-[#0E343E]
+                        {% else %}
+                            fill-white
+                        {% endif %}
+                        " />
+                        </g>
+                        <g clip-path="url(#clip1_2455_230)">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.79339 4.75854C6.65385 4.75859 6.5168 4.79552 6.39612 4.86559C6.27545 4.93566 6.17544 5.03638 6.10622 5.15754L3.3916 9.90754C3.32328 10.0271 3.28735 10.1625 3.28735 10.3002C3.28735 10.4379 3.32328 10.5733 3.3916 10.6929L6.10622 15.4429C6.17544 15.564 6.27545 15.6648 6.39612 15.7348C6.5168 15.8049 6.65385 15.8418 6.79339 15.8419H12.2084C12.3479 15.8418 12.485 15.8049 12.6057 15.7348C12.7263 15.6648 12.8263 15.564 12.8956 15.4429L15.6094 10.6929C15.6777 10.5733 15.7136 10.4379 15.7136 10.3002C15.7136 10.1625 15.6777 10.0271 15.6094 9.90754L12.8956 5.15754C12.8263 5.03638 12.7263 4.93566 12.6057 4.86559C12.485 4.79552 12.3479 4.75859 12.2084 4.75854H6.79339ZM10.766 12.4345C11.0383 12.2797 11.2772 12.0726 11.4691 11.8251C11.661 11.5775 11.8021 11.2945 11.8841 10.9922C11.9662 10.6899 11.9877 10.3744 11.9473 10.0638C11.9069 9.75319 11.8055 9.45364 11.6489 9.18239C11.4923 8.91114 11.2836 8.67355 11.0348 8.48329C10.786 8.29303 10.502 8.15387 10.1992 8.07381C9.89636 7.99375 9.5807 7.97438 9.27038 8.01681C8.96005 8.05924 8.66118 8.16264 8.39097 8.32104C7.84993 8.63823 7.45631 9.15654 7.29601 9.76286C7.13571 10.3692 7.22173 11.0143 7.53532 11.5574C7.84891 12.1006 8.36459 12.4976 8.96985 12.6619C9.5751 12.8263 10.2208 12.7445 10.766 12.4345Z" class="fill-[#0E343E] transition-colors duration-200 group-hover:fill-[#FFE9AC]
+                        {% if request.resolver_match.url_name in 'settings' %}
+                            fill-[#F9BE4A]
+                        {% else %}
+                            fill-[#0E343E]
+                        {% endif %}
+                        " />
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_2455_230">
+                        <rect width="19" height="19" fill="white" transform="translate(0 0.800293)" />
+                        </clipPath>
+                        <clipPath id="clip1_2455_230">
+                        <rect width="12.6667" height="12.6667" fill="white" transform="translate(3.16675 3.96692)" />
+                        </clipPath>
+                        </defs>
+                    </svg>
+                    <span class="pt-0.5{% if request.resolver_match.url_name == 'settings' %} font-semibold {% else %} hover:text-[#0E343E]{% endif %}">Settings</span>
+                </div>
+            </a>
+        </nav>
+        <!-- Logout -->
+        <div class=" pb-6">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit"
+                        class="w-full items-center group flex space-x-3 px-5 py-2 font-semibold transition text-[#F9BE4A] bg-[#0E343E] hover:bg-[#FFE9AC] hover:text-[#0E343E]">
+                    <svg width="19"
+                         height="20"
+                         viewBox="0 0 19 20"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.3008 3.05029C16.8129 3.05029 17.2962 3.2837 17.6465 3.68506C17.9958 4.08537 18.1875 4.62187 18.1875 5.17529V16.4253C18.1875 16.9787 17.9958 17.5152 17.6465 17.9155C17.2962 18.3169 16.8129 18.5503 16.3008 18.5503H7.57422C7.06212 18.5503 6.57882 18.3169 6.22852 17.9155C5.87915 17.5152 5.6875 16.9787 5.6875 16.4253V13.9253C5.6875 13.7034 5.7644 13.4847 5.90918 13.3188C6.05489 13.152 6.26069 13.0503 6.4834 13.0503C6.70592 13.0504 6.91103 13.1521 7.05664 13.3188C7.20142 13.4847 7.27832 13.7034 7.27832 13.9253V16.4253C7.27832 16.5349 7.31714 16.6341 7.37695 16.7026C7.4358 16.77 7.50772 16.8003 7.57422 16.8003H16.3008C16.3673 16.8003 16.4392 16.77 16.498 16.7026C16.5579 16.6341 16.5967 16.5349 16.5967 16.4253V5.17529C16.5967 5.06568 16.5579 4.96648 16.498 4.89795C16.4392 4.83057 16.3673 4.80029 16.3008 4.80029H7.57422C7.50772 4.80029 7.4358 4.83056 7.37695 4.89795C7.31714 4.96648 7.27832 5.06568 7.27832 5.17529V7.67529C7.27832 7.8972 7.20142 8.11585 7.05664 8.28174C6.91103 8.44845 6.70592 8.55016 6.4834 8.55029C6.26069 8.55029 6.05489 8.44859 5.90918 8.28174C5.7644 8.11585 5.6875 7.8972 5.6875 7.67529V5.17529C5.6875 4.62187 5.87915 4.08537 6.22852 3.68506C6.57882 3.2837 7.06212 3.05029 7.57422 3.05029H16.3008Z" class="fill-[#F9BE4A] stroke-[#F9BE4A] transition-colors duration-200 group-hover:fill-[#0E343E] group-hover:stroke-[#0E343E]" stroke-width="0.5" />
+                        <path d="M3.62012 6.55615C3.693 6.56748 3.76096 6.59506 3.82129 6.63428C3.90065 6.68593 3.96534 6.75602 4.01465 6.8335C4.064 6.91107 4.10006 6.99858 4.12402 7.08936C4.14805 7.18051 4.16016 7.27693 4.16016 7.37256C4.16014 7.46805 4.148 7.56376 4.12402 7.65479C4.1001 7.74552 4.06394 7.83307 4.01465 7.91064L2.69727 9.979H8.63672C8.845 9.97914 9.0068 10.1087 9.10449 10.2622C9.20272 10.4166 9.25 10.6106 9.25 10.8003C9.25 10.99 9.20272 11.184 9.10449 11.3384C9.0068 11.4919 8.845 11.6214 8.63672 11.6216H2.69727L4.01465 13.6899L4.0791 13.813C4.09727 13.8558 4.11208 13.9005 4.12402 13.9458C4.148 14.0368 4.16014 14.1325 4.16016 14.228C4.16016 14.3237 4.14805 14.4201 4.12402 14.5112C4.10006 14.602 4.064 14.6895 4.01465 14.7671C3.96534 14.8446 3.90066 14.9147 3.82129 14.9663C3.7409 15.0186 3.64693 15.0503 3.5459 15.0503C3.44487 15.0503 3.3509 15.0186 3.27051 14.9663C3.19114 14.9147 3.12646 14.8446 3.07715 14.7671L0.895508 11.3394C0.846071 11.2618 0.810138 11.1742 0.786133 11.0835C0.762049 10.9923 0.75 10.896 0.75 10.8003C0.75 10.7046 0.762049 10.6083 0.786133 10.5171C0.810157 10.4263 0.846987 10.3388 0.896484 10.2612H0.895508L3.07715 6.8335C3.12646 6.75602 3.19114 6.68593 3.27051 6.63428C3.3509 6.58201 3.44487 6.55029 3.5459 6.55029L3.62012 6.55615Z" class="fill-[#F9BE4A] stroke-[#F9BE4A] transition-colors duration-200 group-hover:fill-[#0E343E] group-hover:stroke-[#0E343E]"  stroke-width="0.5" />
+                    </svg>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+</div>
+<!-- Alpine.js for dropdowns (add this in your base template if not already included) -->
+<script src="//unpkg.com/alpinejs" defer></script>
+<!-- Alpine.js for dropdowns (add this in your base template if not already included) -->
+<script src="//unpkg.com/alpinejs" defer></script>
+<style>
+    .sidebar-position {
+        top: 0;
+        left: 0;
+    }
+    [x-cloak] { display: none !important; }
+</style>

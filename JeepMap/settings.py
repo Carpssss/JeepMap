@@ -149,17 +149,28 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 300
+SESSION_SAVE_EVERY_REQUEST = True
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': '',
-            'secret': '',
+            'client_id': os.environ.get('GOOGLE_OAUTH_CLIENT_ID', ''),
+            'secret': os.environ.get('GOOGLE_OAUTH_CLIENT_SECRET', ''),
             'key': ''
-        }
+        },
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
     }
 }
-
+SOCIALACCOUNT_ADAPTER = 'accounts.adapters.NoNewUsersSocialAccountAdapter'
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",

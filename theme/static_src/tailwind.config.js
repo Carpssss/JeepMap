@@ -45,6 +45,7 @@ module.exports = {
     extend: {
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
+        "montserrat-alternates": ['"Montserrat Alternates"', "sans-serif"],
       },
     },
   },
