@@ -1,0 +1,140 @@
+{% block title %}{{ title }}{% endblock %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4>
+                    <i class="fas fa-user-plus"></i> {{ title }}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.crew_id.id_for_label }}" class="form-label">
+                            {{ form.crew_id.label }} <span class="text-danger">*</span>
+                        </label>
+                        {{ form.crew_id }}
+                        {% if form.crew_id.errors %}
+                            <div class="text-danger">
+                                {% for error in form.crew_id.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.crew_name.id_for_label }}" class="form-label">
+                            {{ form.crew_name.label }} <span class="text-danger">*</span>
+                        </label>
+                        {{ form.crew_name }}
+                        {% if form.crew_name.errors %}
+                            <div class="text-danger">
+                                {% for error in form.crew_name.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+    <label for="{{ form.email.id_for_label }}" class="form-label">
+        {{ form.email.label }} <span class="text-danger">*</span>
+    </label>
+    {{ form.email }}
+    {% if form.email.errors %}
+        <div class="text-danger">
+            {% for error in form.email.errors %}
+                <small>{{ error }}</small>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.password.id_for_label }}" class="form-label">
+                            {{ form.password.label }} <span class="text-danger">*</span>
+                        </label>
+                        {{ form.password }}
+                        {% if form.password.help_text %}
+                            <div class="form-text">{{ form.password.help_text }}</div>
+                        {% endif %}
+                        {% if form.password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.password.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.confirm_password.id_for_label }}" class="form-label">
+                            {{ form.confirm_password.label }} <span class="text-danger">*</span>
+                        </label>
+                        {{ form.confirm_password }}
+                        {% if form.confirm_password.help_text %}
+                            <div class="form-text">{{ form.confirm_password.help_text }}</div>
+                        {% endif %}
+                        {% if form.confirm_password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.confirm_password.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Display form-level errors (like password mismatch) -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors.0 }}
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label for="{{ form.role.id_for_label }}" class="form-label">
+                            {{ form.role.label }} <span class="text-danger">*</span>
+                        </label>
+                        {{ form.role }}
+                        {% if form.role.errors %}
+                            <div class="text-danger">
+                                {% for error in form.role.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.status.id_for_label }}" class="form-label">
+                            {{ form.status.label }} <span class="text-danger">*</span>
+                        </label>
+                        {{ form.status }}
+                        {% if form.status.errors %}
+                            <div class="text-danger">
+                                {% for error in form.status.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'crew_master:list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> {{ button_text }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

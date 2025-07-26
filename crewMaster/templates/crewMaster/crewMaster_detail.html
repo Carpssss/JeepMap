@@ -1,0 +1,179 @@
+{% block title %}Crew Member Details{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+    .role-conductor { background-color: #28a745; }
+    .role-driver { background-color: #007bff; }
+    .status-active { color: #28a745; }
+    .status-inactive { color: #dc3545; }
+    .qr-code-section {
+        background: #f8f9fa;
+        border: 2px dashed #dee2e6;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+    }
+    .qr-code-image {
+        max-width: 200px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        background: white;
+        padding: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4><i class="fas fa-user"></i> Crew Member Details</h4>
+                <div>
+                    <a href="{% url 'crew_master:update' crew.pk %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="{% url 'crew_master:change_password' crew.pk %}" class="btn btn-info btn-sm">
+                        <i class="fas fa-key"></i> Change Password
+                    </a>
+                    <button type="button" class="btn btn-danger btn-sm" 
+                            onclick="confirmDelete('{{ crew.pk }}', '{{ crew.crew_name }}')">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Crew Details -->
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <dl class="row">
+                                    <dt class="col-sm-4">Crew ID:</dt>
+                                    <dd class="col-sm-8"><strong>{{ crew.crew_id }}</strong></dd>
+                                    
+                                    <dt class="col-sm-4">Crew Name:</dt>
+                                    <dd class="col-sm-8">{{ crew.crew_name }}</dd>
+                                    
+                                    <dt class="col-sm-4">Email:</dt>
+                                    <dd class="col-sm-8">
+                                        <a href="mailto:{{ crew.email }}">{{ crew.email }}</a>
+                                    </dd>
+                                    
+                                    <dt class="col-sm-4">Role:</dt>
+                                    <dd class="col-sm-8">
+                                        <span class="badge role-{{ crew.role|lower }}">
+                                            {% if crew.role == 'Conductor' %}
+                                                <i class="fas fa-clipboard-list"></i>
+                                            {% else %}
+                                                <i class="fas fa-steering-wheel"></i>
+                                            {% endif %}
+                                            {{ crew.role }}
+                                        </span>
+                                    </dd>
+                                    
+                                    <dt class="col-sm-4">Status:</dt>
+                                    <dd class="col-sm-8">
+                                        <span class="status-{{ crew.status|lower }}">
+                                            <i class="fas fa-circle"></i> {{ crew.status }}
+                                        </span>
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-6">
+                                <dl class="row">
+                                    <dt class="col-sm-5">Created At:</dt>
+                                    <dd class="col-sm-7">{{ crew.created_at|date:"M d, Y H:i" }}</dd>
+                                    
+                                    <dt class="col-sm-5">Updated At:</dt>
+                                    <dd class="col-sm-7">{{ crew.updated_at|date:"M d, Y H:i" }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- QR Code Section -->
+                    <div class="col-md-4">
+                        <div class="qr-code-section">
+                            <h6><i class="fas fa-qrcode"></i> QR Code</h6>
+                            {% if crew.qr_code %}
+                                <div class="mb-3">
+                                    <img src="{{ crew.qr_code.url }}" alt="QR Code for {{ crew.crew_name }}" 
+                                         class="qr-code-image img-fluid">
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <a href="{% url 'crew_master:download_qr' crew.pk %}" 
+                                       class="btn btn-success btn-sm">
+                                        <i class="fas fa-download"></i> Download QR
+                                    </a>
+                                    <form method="post" action="{% url 'crew_master:regenerate_qr' crew.pk %}" 
+                                          style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-primary btn-sm w-100">
+                                            <i class="fas fa-sync"></i> Regenerate
+                                        </button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <div class="text-muted mb-3">
+                                    <i class="fas fa-exclamation-triangle fa-2x"></i>
+                                    <p>No QR code available</p>
+                                </div>
+                                <form method="post" action="{% url 'crew_master:regenerate_qr' crew.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-qrcode"></i> Generate QR Code
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="{% url 'crew_master:list' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete crew member "<span id="crewName"></span>"?</p>
+                <p class="text-danger"><strong>This action cannot be undone.</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+function confirmDelete(crewId, crewName) {
+    document.getElementById('crewName').textContent = crewName;
+    document.getElementById('deleteForm').action = `/crew-master/${crewId}/delete/`;
+    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    modal.show();
+}
+</script>
+{% endblock %}
