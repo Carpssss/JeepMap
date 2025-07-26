@@ -15,7 +15,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
     </button>
-    <aside class="bg-[#0E343E] text-white w-64 min-h-screen flex flex-col fixed md:relative z-40 sidebar-position"
+    <aside class="bg-[#0E343E] text-white w-64 h-screen flex flex-col fixed top-0 left-0 z-40 sidebar-position"
            :class="{'-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen, 'md:translate-x-0': true}"
            x-show="sidebarOpen || window.innerWidth >= 768"
            @click.away="sidebarOpen = false"
@@ -70,8 +70,7 @@
             <div x-data="{ open: false }" class="relative">
                 <button type="button"
                         @click="open = !open"
-                        :class="{'bg-[#FFE9AC] text-[#0E343E]': open}"
-                        class="group w-full flex justify-between items-center  px-5 py-2 font-semibold font-montserrat-alternates transition {% if request.resolver_match.url_name in 'crew_master administrator schedule_master vehicle_master routes_fares' %} bg-[#F9BE4A] text-[#0E343E] font-semibold{% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        :class="[ 'group w-full flex justify-between items-center px-5 py-2 font-semibold font-montserrat-alternates transition', open ? 'bg-[#FFE9AC] text-[#0E343E]' : '{% if request.resolver_match.url_name in 'crew_master admin_list schedule_master vehicle_master routes_fares' %} bg-[#F9BE4A] text-[#0E343E] {% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] text-white {% endif %}' ]">
                     <div class="flex items-center space-x-3">
                         <svg width="19"
                              height="20"
@@ -79,18 +78,16 @@
                              fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_2455_193)">
-                            <path d="M0 3.17529C0 2.5454 0.250223 1.94131 0.695621 1.49591C1.14102 1.05052 1.74511 0.800293 2.375 0.800293L16.625 0.800293C17.2549 0.800293 17.859 1.05052 18.3044 1.49591C18.7498 1.94131 19 2.5454 19 3.17529V17.4253C19 18.0552 18.7498 18.6593 18.3044 19.1047C17.859 19.5501 17.2549 19.8003 16.625 19.8003H2.375C1.74511 19.8003 1.14102 19.5501 0.695621 19.1047C0.250223 18.6593 0 18.0552 0 17.4253V3.17529Z" :class="[open ? 'fill-[#0E343E]':'fill-white transition-colors duration-200 group-hover:fill-[#0E343E]']" class="
-                            {% if request.resolver_match.url_name in 'crew_master administrator schedule_master vehicle_master routes_fares' %}
+                            <!--  Path 1 -->
+                            <path d="M0 3.17529C0 2.5454 0.250223 1.94131 0.695621 1.49591C1.14102 1.05052 1.74511 0.800293 2.375 0.800293L16.625 0.800293C17.2549 0.800293 17.859 1.05052 18.3044 1.49591C18.7498 1.94131 19 2.5454 19 3.17529V17.4253C19 18.0552 18.7498 18.6593 18.3044 19.1047C17.859 19.5501 17.2549 19.8003 16.625 19.8003H2.375C1.74511 19.8003 1.14102 19.5501 0.695621 19.1047C0.250223 18.6593 0 18.0552 0 17.4253V3.17529Z" class="
+                            {% if request.resolver_match.url_name in 'crew_master admin_list schedule_master vehicle_master routes_fares' %}
                                 fill-[#0E343E]
                             {% endif %}
-                            " />
+                            "  :class="open ? 'fill-[#0E343E]' : 'fill-white transition-colors duration-200 group-hover:fill-[#0E343E]'" />
                             </g>
                             <g clip-path="url(#clip1_2455_193)">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.6124 4.79817C10.2854 3.68984 8.71475 3.68984 8.38779 4.79817L8.30862 5.06734C8.25977 5.23326 8.1744 5.38616 8.05877 5.5148C7.94313 5.64344 7.80018 5.74456 7.64037 5.81076C7.48057 5.87696 7.30798 5.90655 7.13525 5.89736C6.96252 5.88818 6.79404 5.84045 6.64216 5.75767L6.39675 5.62309C5.38104 5.0705 4.27033 6.18121 4.82371 7.19613L4.9575 7.44234C5.31058 8.0915 4.97571 8.89979 4.26716 9.10879L3.998 9.18796C2.88966 9.51492 2.88966 11.0856 3.998 11.4125L4.26716 11.4917C4.43309 11.5406 4.58598 11.6259 4.71462 11.7416C4.84326 11.8572 4.94439 12.0002 5.01059 12.16C5.07679 12.3198 5.10638 12.4924 5.09719 12.6651C5.08801 12.8378 5.04027 13.0063 4.9575 13.1582L4.82291 13.4036C4.27033 14.4193 5.38104 15.53 6.39596 14.9766L6.64216 14.8428C6.79404 14.7601 6.96252 14.7123 7.13525 14.7031C7.30798 14.694 7.48057 14.7235 7.64037 14.7897C7.80018 14.8559 7.94313 14.9571 8.05877 15.0857C8.1744 15.2143 8.25977 15.3672 8.30862 15.5332L8.38779 15.8023C8.71475 16.9107 10.2854 16.9107 10.6124 15.8023L10.6915 15.5332C10.7404 15.3672 10.8258 15.2143 10.9414 15.0857C11.057 14.9571 11.2 14.8559 11.3598 14.7897C11.5196 14.7235 11.6922 14.694 11.8649 14.7031C12.0376 14.7123 12.2061 14.7601 12.358 14.8428L12.6034 14.9774C13.6191 15.53 14.7298 14.4193 14.1765 13.4044L14.0427 13.1582C13.9599 13.0063 13.9122 12.8378 13.903 12.6651C13.8938 12.4924 13.9234 12.3198 13.9896 12.16C14.0558 12.0002 14.1569 11.8572 14.2855 11.7416C14.4142 11.6259 14.5671 11.5406 14.733 11.4917L15.0022 11.4125C16.1105 11.0856 16.1105 9.51492 15.0022 9.18796L14.733 9.10879C14.5671 9.05994 14.4142 8.97457 14.2855 8.85894C14.1569 8.74331 14.0558 8.60035 13.9896 8.44054C13.9234 8.28074 13.8938 8.10815 13.903 7.93542C13.9122 7.7627 13.9599 7.59421 14.0427 7.44234L14.1772 7.19692C14.7298 6.18121 13.6191 5.0705 12.6042 5.62388L12.358 5.75767C12.2061 5.84045 12.0376 5.88818 11.8649 5.89736C11.6922 5.90655 11.5196 5.87696 11.3598 5.81076C11.2 5.74456 11.057 5.64344 10.9414 5.5148C10.8258 5.38616 10.7404 5.23326 10.6915 5.06734L10.6124 4.79817ZM9.50008 12.6198C10.1153 12.6198 10.7053 12.3755 11.1403 11.9404C11.5753 11.5054 11.8197 10.9154 11.8197 10.3003C11.8197 9.68506 11.5753 9.09507 11.1403 8.66006C10.7053 8.22505 10.1153 7.98067 9.50008 7.98067C8.8851 7.98067 8.29531 8.22497 7.86045 8.65983C7.42559 9.09469 7.18129 9.68448 7.18129 10.2995C7.18129 10.9144 7.42559 11.5042 7.86045 11.9391C8.29531 12.374 8.8851 12.6183 9.50008 12.6183V12.6198Z" :class="[open ? 'fill-[#FFE9AC]':'fill-[#0E343E] transition-colors duration-200 group-hover:fill-[#FFE9AC]']" class="
-                            {% if request.resolver_match.url_name in 'crew_master administrator schedule_master vehicle_master routes_fares' %}
-                                fill-[#F9BE4A]
-                            {% endif %}
-                            " />
+                            <!--  Path 2 -->
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.6124 4.79817C10.2854 3.68984 8.71475 3.68984 8.38779 4.79817L8.30862 5.06734C8.25977 5.23326 8.1744 5.38616 8.05877 5.5148C7.94313 5.64344 7.80018 5.74456 7.64037 5.81076C7.48057 5.87696 7.30798 5.90655 7.13525 5.89736C6.96252 5.88818 6.79404 5.84045 6.64216 5.75767L6.39675 5.62309C5.38104 5.0705 4.27033 6.18121 4.82371 7.19613L4.9575 7.44234C5.31058 8.0915 4.97571 8.89979 4.26716 9.10879L3.998 9.18796C2.88966 9.51492 2.88966 11.0856 3.998 11.4125L4.26716 11.4917C4.43309 11.5406 4.58598 11.6259 4.71462 11.7416C4.84326 11.8572 4.94439 12.0002 5.01059 12.16C5.07679 12.3198 5.10638 12.4924 5.09719 12.6651C5.08801 12.8378 5.04027 13.0063 4.9575 13.1582L4.82291 13.4036C4.27033 14.4193 5.38104 15.53 6.39596 14.9766L6.64216 14.8428C6.79404 14.7601 6.96252 14.7123 7.13525 14.7031C7.30798 14.694 7.48057 14.7235 7.64037 14.7897C7.80018 14.8559 7.94313 14.9571 8.05877 15.0857C8.1744 15.2143 8.25977 15.3672 8.30862 15.5332L8.38779 15.8023C8.71475 16.9107 10.2854 16.9107 10.6124 15.8023L10.6915 15.5332C10.7404 15.3672 10.8258 15.2143 10.9414 15.0857C11.057 14.9571 11.2 14.8559 11.3598 14.7897C11.5196 14.7235 11.6922 14.694 11.8649 14.7031C12.0376 14.7123 12.2061 14.7601 12.358 14.8428L12.6034 14.9774C13.6191 15.53 14.7298 14.4193 14.1765 13.4044L14.0427 13.1582C13.9599 13.0063 13.9122 12.8378 13.903 12.6651C13.8938 12.4924 13.9234 12.3198 13.9896 12.16C14.0558 12.0002 14.1569 11.8572 14.2855 11.7416C14.4142 11.6259 14.5671 11.5406 14.733 11.4917L15.0022 11.4125C16.1105 11.0856 16.1105 9.51492 15.0022 9.18796L14.733 9.10879C14.5671 9.05994 14.4142 8.97457 14.2855 8.85894C14.1569 8.74331 14.0558 8.60035 13.9896 8.44054C13.9234 8.28074 13.8938 8.10815 13.903 7.93542C13.9122 7.7627 13.9599 7.59421 14.0427 7.44234L14.1772 7.19692C14.7298 6.18121 13.6191 5.0705 12.6042 5.62388L12.358 5.75767C12.2061 5.84045 12.0376 5.88818 11.8649 5.89736C11.6922 5.90655 11.5196 5.87696 11.3598 5.81076C11.2 5.74456 11.057 5.64344 10.9414 5.5148C10.8258 5.38616 10.7404 5.23326 10.6915 5.06734L10.6124 4.79817ZM9.50008 12.6198C10.1153 12.6198 10.7053 12.3755 11.1403 11.9404C11.5753 11.5054 11.8197 10.9154 11.8197 10.3003C11.8197 9.68506 11.5753 9.09507 11.1403 8.66006C10.7053 8.22505 10.1153 7.98067 9.50008 7.98067C8.8851 7.98067 8.29531 8.22497 7.86045 8.65983C7.42559 9.09469 7.18129 9.68448 7.18129 10.2995C7.18129 10.9144 7.42559 11.5042 7.86045 11.9391C8.29531 12.374 8.8851 12.6183 9.50008 12.6183V12.6198Z" :class="open ? 'fill-[#FFE9AC]' : 'fill-[#0E343E] transition-colors duration-200 group-hover:fill-[#FFE9AC]'" />
                             </g>
                             <defs>
                             <clipPath id="clip0_2455_193">
@@ -101,7 +98,7 @@
                             </clipPath>
                             </defs>
                         </svg>
-                        <span class="pt-1{% if request.resolver_match.url_name == 'crew_master administrator schedule_master vehicle_master routes_fares' %} font-semibold {% else %} group-hover:text-[#0E343E] group-hover:font-semibold {% endif %}">Operation</span>
+                        <span class="pt-1{% if request.resolver_match.url_name == 'crew_master admin_list schedule_master vehicle_master routes_fares' %} font-semibold text-[#0E343E] {% endif %}">Operation</span>
                     </div>
                     <svg :class="{'rotate-180': open}"
                          class="w-4 h-4 ml-2 transition-transform"
@@ -120,8 +117,8 @@
                      x-transition:leave-start="opacity-100 translate-y-0"
                      x-transition:leave-end="opacity-0 -translate-y-0"
                      class="space-y-1 bg-[#1C404A]">
-                    <a href="#"
-                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'administrator' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                    <a href="{% url 'admin_list' %}"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'admin_list' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
                         <span class="pl-9">Administrator</span>
                     </a>
                     <a href="#"
@@ -354,6 +351,7 @@
     .sidebar-position {
         top: 0;
         left: 0;
+        height: 100vh;
     }
     [x-cloak] { display: none !important; }
 </style>

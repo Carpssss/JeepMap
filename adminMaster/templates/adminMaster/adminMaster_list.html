@@ -1,39 +1,68 @@
-{% block title %}Admin List{% endblock %}
-
+{% extends "SAbase.html" %}
+<title>
+    {% block title %}
+        Admin Master - JeepMap
+    {% endblock title %}
+</title>
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Admin Master List</h2>
-    <a href="{% url 'admin_create' %}" class="btn btn-success">Add New Admin</a>
-</div>
-
-<table class="table table-striped">
-    <thead class="table-dark">
-        <tr>
-            <th>Admin ID</th>
-            <th>Admin Name</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for admin in admins %}
-        <tr>
-            <td>{{ admin.admin_id }}</td>
-            <td>{{ admin.admin_name }}</td>
-            <td><span class="badge bg-info">{{ admin.role }}</span></td>
-            <td><span class="status-{{ admin.status|lower }}">{{ admin.status }}</span></td>
-            <td>
-                <a href="{% url 'admin_detail' admin.pk %}" class="btn btn-info btn-sm">View</a>
-                <a href="{% url 'admin_update' admin.pk %}" class="btn btn-warning btn-sm">Edit</a>
-                <a href="{% url 'admin_delete' admin.pk %}" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5" class="text-center">No admins found.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endblock %}
+    <div class="min-h-screen px-8 py-6 ">
+        <div class="flex-1 flex w-full justify-between pl-12 md:pl-0 pb-6">
+            <p class="text-lg md:text-2xl font-bold">Admin Master List</p>
+            <button class="bg-[#0E343E] text-white md:px-4 md:py-2 flex items-center gap-2">
+                <svg width="19"
+                     height="18"
+                     viewBox="0 0 19 18"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_2596_2182)">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2.88778 0.183702C2.30322 0.183702 1.09706 -0.229633 0.683718 0.183711C0.270374 0.597055 0.683708 1.80322 0.683708 2.38777V15.6122C0.683708 16.1968 0.270374 17.4029 0.683718 17.8163C1.09706 18.2296 2.30322 17.8163 2.88778 17.8163H16.1122C16.6968 17.8163 17.9029 18.2296 18.3163 17.8163C18.7296 17.403 18.3163 16.1968 18.3163 15.6122V2.38777C18.3163 1.80322 18.7296 0.597055 18.3163 0.183711C17.9029 -0.229633 16.6968 0.183702 16.1122 0.183702H2.88778ZM10.051 5.14287C10.051 4.99673 9.99296 4.85657 9.88963 4.75324C9.78629 4.6499 9.64614 4.59185 9.5 4.59185C9.35386 4.59185 9.21371 4.6499 9.11037 4.75324C9.00704 4.85657 8.94898 4.99673 8.94898 5.14287V8.44898H5.64287C5.49673 8.44898 5.35658 8.50703 5.25324 8.61037C5.14991 8.7137 5.09185 8.85386 5.09185 8.99999C5.09185 9.14613 5.14991 9.28629 5.25324 9.38962C5.35658 9.49296 5.49673 9.55101 5.64287 9.55101H8.94898V12.8571C8.94898 13.0033 9.00704 13.1434 9.11037 13.2468C9.21371 13.3501 9.35386 13.4081 9.5 13.4081C9.64614 13.4081 9.78629 13.3501 9.88963 13.2468C9.99296 13.1434 10.051 13.0033 10.051 12.8571V9.55101H13.3571C13.5033 9.55101 13.6434 9.49296 13.7468 9.38962C13.8501 9.28629 13.9081 9.14613 13.9081 8.99999C13.9081 8.85386 13.8501 8.7137 13.7468 8.61037C13.6434 8.50703 13.5033 8.44898 13.3571 8.44898H10.051V5.14287Z" fill="white" />
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_2596_2182">
+                    <rect width="18" height="18" fill="white" transform="translate(0.5)" />
+                    </clipPath>
+                    </defs>
+                </svg>
+                <span class="font-semibold font-montserrat text-sm">Add New Admin</span>
+            </button>
+        </div>
+        {% if admins %}
+            <div class="select-none w-full overflow-x-auto">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr class="bg-[#0E343E] text-white font-montserrat">
+                            <th>Admin ID</th>
+                            <th>Admin Name</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for admin in admins %}
+                            <tr>
+                                <td>{{ admin.admin_id }}</td>
+                                <td>{{ admin.admin_name }}</td>
+                                <td>
+                                    <span class="badge bg-info">{{ admin.role }}</span>
+                                </td>
+                                <td>
+                                    <span class="status-{{ admin.status|lower }}">{{ admin.status }}</span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'admin_detail' admin.pk %}" class="btn btn-info btn-sm">View</a>
+                                    <a href="{% url 'admin_update' admin.pk %}"
+                                       class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{% url 'admin_delete' admin.pk %}"
+                                       class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="h-[calc(95%-48px)] flex justify-center relative">{% include "partials/tableIsEmpty.html" %}</div>
+        {% endif %}
+    </div>
+{% endblock content %}
