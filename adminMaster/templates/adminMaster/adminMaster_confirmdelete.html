@@ -1,0 +1,23 @@
+{% block title %}Delete Admin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Confirm Delete</h4>
+            </div>
+            <div class="card-body">
+                <p>Are you sure you want to delete <strong>{{ admin.admin_name }}</strong>?</p>
+                <p class="text-danger">This action cannot be undone.</p>
+                
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </form>
+                <a href="{% url 'admin_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

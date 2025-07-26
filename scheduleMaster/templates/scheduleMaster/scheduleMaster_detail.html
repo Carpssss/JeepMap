@@ -1,0 +1,163 @@
+{% block title %}Schedule Details{% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4><i class="fas fa-calendar-alt"></i> Schedule Details</h4>
+                <div>
+                    <a href="{% url 'scheduleMaster:update' schedule.pk %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="{% url 'scheduleMaster:duplicate' schedule.pk %}" class="btn btn-info btn-sm">
+                        <i class="fas fa-copy"></i> Duplicate
+                    </a>
+                    <button type="button" class="btn btn-danger btn-sm" 
+                            onclick="confirmDelete('{{ schedule.pk }}', '{{ schedule.schedule_name }}')">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Schedule Name:</dt>
+                            <dd class="col-sm-8"><strong>{{ schedule.schedule_name }}</strong></dd>
+                            
+                            <dt class="col-sm-4">Number of Trips:</dt>
+                            <dd class="col-sm-8">
+                                <span class="trips-badge">{{ schedule.trips }}</span>
+                            </dd>
+                            
+                            <dt class="col-sm-4">Start Time:</dt>
+                            <dd class="col-sm-8">
+                                <span class="time-badge">
+                                    <i class="fas fa-clock"></i> {{ schedule.start_time|time:"H:i A" }}
+                                </span>
+                            </dd>
+                            
+                            <dt class="col-sm-4">End Time:</dt>
+                            <dd class="col-sm-8">
+                                <span class="time-badge">
+                                    <i class="fas fa-clock"></i> {{ schedule.end_time|time:"H:i A" }}
+                                </span>
+                            </dd>
+                            
+                            <dt class="col-sm-4">Duration:</dt>
+                            <dd class="col-sm-8">
+                                <span class="badge bg-secondary">{{ schedule.duration }}</span>
+                            </dd>
+                            
+                            <dt class="col-sm-4">Status:</dt>
+                            <dd class="col-sm-8">
+                                <span class="status-{{ schedule.status|lower }}">
+                                    <i class="fas fa-circle"></i> {{ schedule.status }}
+                                </span>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Description:</dt>
+                            <dd class="col-sm-8">
+                                {% if schedule.description %}
+                                    {{ schedule.description|linebreaks }}
+                                {% else %}
+                                    <em class="text-muted">No description provided</em>
+                                {% endif %}
+                            </dd>
+                            
+                            <dt class="col-sm-4">Created At:</dt>
+                            <dd class="col-sm-8">{{ schedule.created_at|date:"M d, Y H:i" }}</dd>
+                            
+                            <dt class="col-sm-4">Updated At:</dt>
+                            <dd class="col-sm-8">{{ schedule.updated_at|date:"M d, Y H:i" }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                
+                <!-- Schedule Overview Card -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6><i class="fas fa-info-circle"></i> Schedule Overview</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-md-3">
+                                        <div class="border-end">
+                                            <h5 class="text-primary">{{ schedule.trips }}</h5>
+                                            <small class="text-muted">Total Trips</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="border-end">
+                                            <h5 class="text-success">{{ schedule.start_time|time:"H:i" }}</h5>
+                                            <small class="text-muted">Start Time</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="border-end">
+                                            <h5 class="text-warning">{{ schedule.end_time|time:"H:i" }}</h5>
+                                            <small class="text-muted">End Time</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h5 class="text-info">{{ schedule.duration }}</h5>
+                                        <small class="text-muted">Duration</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="{% url 'scheduleMaster:list' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete schedule "<span id="scheduleName"></span>"?</p>
+                <p class="text-danger"><strong>This action cannot be undone.</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmDelete(scheduleId, scheduleName) {
+    document.getElementById('scheduleName').innerText = scheduleName;
+    document.getElementById('deleteForm').action = "{% url 'scheduleMaster:delete' 0 %}".replace('0', scheduleId);
+
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    deleteModal.show();
+}
+
+</script>
+{% endblock %}

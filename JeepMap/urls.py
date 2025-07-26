@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from accounts import views as accounts_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +27,8 @@ urlpatterns = [
     path('dashboard/', accounts_views.home, name='home'), 
     path('', accounts_views.home, name='root'),
     path("__reload__/", include("django_browser_reload.urls")),
-]
+    path('adminMaster/', include('adminMaster.urls')),
+    path('crewMaster/', include('crewMaster.urls')),
+    path('scheduleMaster/', include('scheduleMaster.urls')),
+    path('vehicleMaster/', include('vehicleMaster.urls')),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

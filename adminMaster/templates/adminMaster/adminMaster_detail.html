@@ -1,0 +1,42 @@
+{% block title %}Admin Details{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h4>Admin Details</h4>
+                <div>
+                    <a href="{% url 'admin_update' admin.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'admin_delete' admin.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Admin ID:</dt>
+                    <dd class="col-sm-8">{{ admin.admin_id }}</dd>
+                    
+                    <dt class="col-sm-4">Admin Name:</dt>
+                    <dd class="col-sm-8">{{ admin.admin_name }}</dd>
+                    <dt class="col-sm-4">Admin Email:</dt>
+                    <dd class="col-sm-8">{{ admin.admin_email }}</dd>
+                    
+                    <dt class="col-sm-4">Role:</dt>
+                    <dd class="col-sm-8"><span class="badge bg-info">{{ admin.role }}</span></dd>
+                    
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8"><span class="status-{{ admin.status|lower }}">{{ admin.status }}</span></dd>
+                    
+                    <dt class="col-sm-4">Created:</dt>
+                    <dd class="col-sm-8">{{ admin.created_at|date:"M d, Y H:i" }}</dd>
+                    
+                    <dt class="col-sm-4">Updated:</dt>
+                    <dd class="col-sm-8">{{ admin.updated_at|date:"M d, Y H:i" }}</dd>
+                </dl>
+                
+                <a href="{% url 'admin_list' %}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
