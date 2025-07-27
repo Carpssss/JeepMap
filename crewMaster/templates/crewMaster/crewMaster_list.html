@@ -1,109 +1,87 @@
-{% block title %}
-    <title>Crew Master List</title>
-{% endblock title %}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
-      rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+{% extends "SAbase.html" %}
+<title>
+    {% block title %}
+        Crew Master - JeepMap
+    {% endblock title %}
+</title>
 {% block content %}
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>
-            <i class="fas fa-list"></i> Crew Master List
-        </h2>
-        <a href="{% url 'create' %}" class="btn btn-success">
-            <i class="fas fa-plus"></i> Add New Crew Member
-        </a>
-    </div>
-    <!-- Search and Filter Form -->
-    <div class="search-form">
-        <form method="get" class="row g-3">
-            <div class="col-md-4">
-                <input type="text"
-                       name="search"
-                       class="form-control"
-                       placeholder="Search by Crew ID or Name"
-                       value="{{ search_query }}">
-            </div>
-            <div class="col-md-3">
-                <select name="role" class="form-control">
-                    <option value="">All Roles</option>
-                    {% for value, label in role_choices %}
-                        <option value="{{ value }}" {% if role_filter == value %}selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select name="status" class="form-control">
-                    <option value="">All Status</option>
-                    {% for value, label in status_choices %}
-                        <option value="{{ value }}"
-                                {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i> Search
-                </button>
-            </div>
-        </form>
-    </div>
-    <!-- Statistics Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h5>Total Crew</h5>
-                    <h3>{{ page_obj.paginator.count }}</h3>
-                </div>
-            </div>
+    <div class="min-h-screen px-4 md:px-8 py-6 ">
+        <div class="flex-1 flex w-full justify-between pl-[50px] md:pl-0 pb-6">
+            <p class="text-lg md:text-xl lg:text-2xl font-bold ease-linear duration-300">Crew Master List</p>
+            <button class="bg-[#0E343E] text-white md:px-4 md:py-2 flex items-center gap-2">
+                <svg width="19"
+                     height="18"
+                     viewBox="0 0 19 18"
+                     fill="none"
+                     class="w-7 h-7 md:w-[19px] md:h-[18px]"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_2596_2182)">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2.88778 0.183702C2.30322 0.183702 1.09706 -0.229633 0.683718 0.183711C0.270374 0.597055 0.683708 1.80322 0.683708 2.38777V15.6122C0.683708 16.1968 0.270374 17.4029 0.683718 17.8163C1.09706 18.2296 2.30322 17.8163 2.88778 17.8163H16.1122C16.6968 17.8163 17.9029 18.2296 18.3163 17.8163C18.7296 17.403 18.3163 16.1968 18.3163 15.6122V2.38777C18.3163 1.80322 18.7296 0.597055 18.3163 0.183711C17.9029 -0.229633 16.6968 0.183702 16.1122 0.183702H2.88778ZM10.051 5.14287C10.051 4.99673 9.99296 4.85657 9.88963 4.75324C9.78629 4.6499 9.64614 4.59185 9.5 4.59185C9.35386 4.59185 9.21371 4.6499 9.11037 4.75324C9.00704 4.85657 8.94898 4.99673 8.94898 5.14287V8.44898H5.64287C5.49673 8.44898 5.35658 8.50703 5.25324 8.61037C5.14991 8.7137 5.09185 8.85386 5.09185 8.99999C5.09185 9.14613 5.14991 9.28629 5.25324 9.38962C5.35658 9.49296 5.49673 9.55101 5.64287 9.55101H8.94898V12.8571C8.94898 13.0033 9.00704 13.1434 9.11037 13.2468C9.21371 13.3501 9.35386 13.4081 9.5 13.4081C9.64614 13.4081 9.78629 13.3501 9.88963 13.2468C9.99296 13.1434 10.051 13.0033 10.051 12.8571V9.55101H13.3571C13.5033 9.55101 13.6434 9.49296 13.7468 9.38962C13.8501 9.28629 13.9081 9.14613 13.9081 8.99999C13.9081 8.85386 13.8501 8.7137 13.7468 8.61037C13.6434 8.50703 13.5033 8.44898 13.3571 8.44898H10.051V5.14287Z" fill="white" />
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_2596_2182">
+                    <rect width="18" height="18" fill="white" transform="translate(0.5)" />
+                    </clipPath>
+                    </defs>
+                </svg>
+                <span class="font-semibold font-montserrat text-sm hidden md:block">Add New Crew Member</span>
+            </button>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5>Active</h5>
-                    <h3>{{ page_obj.object_list|length }}</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Crew Table -->
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead>
+        <!-- Crew Table -->
+        <table class="w-full table-fixed bg-red-400">
+            <thead class="bg-[#0E343E] w-full text-white font-montserrat">
                 <tr>
-                    <th>
-                        <input type="checkbox" id="selectAll" class="form-check-input">
+                    <th class="text-start table-text">
+                        <div class="flex items-center space-x-2 sm:space-x-3">
+                            <input class="border-[#F9BE4A] bg-transparent rounded cursor-pointer w-3 h-3 sm:w-4 sm:h-4"
+                                   type="checkbox" />
+                            <span class=" truncate max-w-[70px] sm:max-w-none" title="Admin ID">Crew ID</span>
+                        </div>
                     </th>
-                    <th>Crew ID</th>
-                    <th>Crew Name</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th class="text-start table-text">
+                        <div class="flex items-center">
+                            <span class=" truncate max-w-[70px] sm:max-w-none" title="Crew Name">Crew Name</span>
+                        </div>
+                    </th>
+                    <th class="text-start table-text">
+                        <div class="flex items-center">
+                            <span class=" truncate max-w-[70px] sm:max-w-none" title="Role">Role</span>
+                        </div>
+                    </th>
+                    <th class="text-start table-text">
+                        <div class="flex items-center">
+                            <span class=" truncate max-w-[70px] sm:max-w-none" title="Crew Name">Status</span>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 {% for crew in page_obj %}
                     <tr>
                         <td>
-                            <input type="checkbox"
-                                   class="form-check-input crew-checkbox"
-                                   value="{{ crew.pk }}">
+                            <div class="flex items-center space-x-2 sm:space-x-3">
+                                <input class="border-[#0E343E] bg-transparent rounded cursor-pointer w-3 h-3 sm:w-4 sm:h-4"
+                                       type="checkbox"
+                                       value="{{ crew.pk }}">
+                                <div class="flex items-center">
+                                    <span class=" block truncate w-[90px] sm:w-auto sm:max-w-none"
+                                          title="{{ crew.crew_id }}">{{ crew.crew_id }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-start table-text">
+                            <div class="flex items-center">
+                                <span class=" block truncate w-[90px] sm:w-auto sm:max-w-none"
+                                      title="{{ crew.crew_name }}">{{ crew.crew_name }}</span>
+                            </div>
                         </td>
                         <td>
-                            <strong>{{ crew.crew_id }}</strong>
-                        </td>
-                        <td>{{ crew.crew_name }}</td>
-                        <td>
-                            <span class="badge role-{{ crew.role|lower }}">
-                                {% if crew.role == 'Conductor' %}
-                                    <i class="fas fa-clipboard-list"></i>
-                                {% else %}
-                                    <i class="fas fa-steering-wheel"></i>
-                                {% endif %}
-                                {{ crew.role }}
-                            </span>
+                            <td class="text-start table-text">
+                                <div class="flex items-center">
+                                    <span class="role-{{ crew.role|lower }} block truncate w-[60px] sm:w-auto sm:max-w-none"
+                                          title="{{ crew.role }}">{{ crew.role }}</span>
+                                </div>
+                            </td>
                         </td>
                         <td>
                             <button class="btn-toggle status-toggle" data-id="{{ crew.pk }}">
@@ -133,72 +111,39 @@
                             </div>
                         </td>
                     </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="6" class="text-center text-muted">
-                            <i class="fas fa-users fa-3x mb-3"></i>
-                            <p>No crew members found.</p>
-                        </td>
-                    </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </div>
-    <!-- Pagination -->
-    {% if page_obj.has_other_pages %}
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link"
-                           href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">First</a>
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Previous</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item active">
+                        <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link"
-                           href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Previous</a>
-                    </li>
-                {% endif %}
-                <li class="page-item active">
-                    <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-                </li>
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link"
-                           href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Next</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link"
-                           href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Last</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    {% endif %}
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirm Delete</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Are you sure you want to delete crew member "<span id="crewName"></span>"?
-                    </p>
-                    <p class="text-danger">
-                        <strong>This action cannot be undone.</strong>
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form id="deleteForm" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Last</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
     </div>
 {% endblock content %}
 {% block extra_js %}
@@ -251,8 +196,5 @@
     const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
     deleteModal.show();
 }
-
-
-
     </script>
 {% endblock extra_js %}
