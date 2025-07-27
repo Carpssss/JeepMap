@@ -5,10 +5,10 @@
     {% endblock title %}
 </title>
 {% block content %}
-    <div class="min-h-screen px-4 md:px-8 py-6 ">
+    <div class="min-h-screen px-4 md:px-8 py-6 select-none">
         <div class="flex-1 flex w-full justify-between pl-[50px] md:pl-0 pb-6">
             <p class="text-lg md:text-xl lg:text-2xl font-bold ease-linear duration-300">Admin Master List</p>
-            <button class="bg-[#0E343E] text-white md:px-4 md:py-2 flex items-center gap-2">
+            <button class="bg-[#0E343E] text-white md:px-4 md: flex items-center gap-2">
                 <svg width="19"
                      height="18"
                      viewBox="0 0 19 18"
@@ -27,45 +27,63 @@
                 <span class="font-semibold font-montserrat text-sm hidden md:block">Add New Admin</span>
             </button>
         </div>
+        <!-- Admin List Table -->
         {% if admins %}
-            <div class="select-none w-full overflow-x-auto">
-                <table class="min-w-full table-fixed">
-                    <thead class="table-dark ">
-                        <tr class="bg-[#0E343E] text-white font-montserrat">
-                            <th class="px-16 py-3 text-start space-x-3 font-normal w-1/5">
-                                <div class="flex items-center justify-start space-x-4">
-                                    <input class="border-[#F9BE4A] bg-transparent rounded cursor-pointer"
+            <table class="w-full table-fixed">
+                <thead class="bg-[#0E343E] text-white font-montserrat">
+                    <tr>
+                        <th class="text-start table-text">
+                            <div class="flex items-center space-x-2 sm:space-x-3">
+                                <input class="border-[#F9BE4A] bg-transparent rounded cursor-pointer w-3 h-3 sm:w-4 sm:h-4"
+                                       type="checkbox" />
+                                <span class=" truncate max-w-[70px] sm:max-w-none" title="Admin ID">Admin ID</span>
+                            </div>
+                        </th>
+                        <th class="text-start table-text">
+                            <div class="flex items-center">
+                                <span class=" truncate max-w-[70px] sm:max-w-none" title="Admin Name">Admin Name</span>
+                            </div>
+                        </th>
+                        <th class="text-start table-text">
+                            <span class="truncate max-w-[100px] sm:max-w-none" title="Role">Role</span>
+                        </th>
+                        <th class="text-start table-text">
+                            <span class="truncate max-w-[100px] sm:max-w-none" title="Status">Status</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for admin in admins %}
+                        <tr class="border-b hover:bg-gray-100 transition-colors duration-200">
+                            <td class="text-start table-text">
+                                <div class="flex items-center space-x-2 sm:space-x-3">
+                                    <input class="border-[#0E343E] bg-transparent rounded cursor-pointer w-3 h-3 sm:w-4 sm:h-4"
                                            type="checkbox" />
-                                    <span>Admin ID</span>
-                                </div>
-                            </th>
-                            <th class="px-16 py-3 text-start font-normal w-1/5">Admin Name</th>
-                            <th class="px-16 py-3 text-start font-normal w-1/5">Role</th>
-                            <th class="px-16 py-3 text-start font-normal w-1/5">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for admin in admins %}
-                            <tr class="border-b hover:bg-gray-100 transition-colors duration-200">
-                                <td class="px-16 py-3 text-start font-normal w-1/5">
-                                    <div class="flex items-center justify-start space-x-4">
-                                        <input class="border-[#0E343E] bg-transparent rounded cursor-pointer"
-                                               type="checkbox" />
-                                        <span>{{ admin.admin_id }}</span>
+                                    <div class="flex items-center">
+                                        <span class=" block truncate w-[90px] sm:w-auto sm:max-w-none"
+                                              title="{{ admin.admin_id }}">{{ admin.admin_id }}</span>
                                     </div>
-                                </td>
-                                <td class="px-16 py-3 text-start font-normal w-1/5">{{ admin.admin_name }}</td>
-                                <td class="px-16 py-3 text-start font-normal w-1/5">
-                                    <span class="badge bg-info">{{ admin.role }}</span>
-                                </td>
-                                <td class="px-16 py-3 text-start font-normal w-1/5">
-                                    <span class="status-{{ admin.status|lower }}">{{ admin.status }}</span>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                                </div>
+                            </td>
+                            <td class="text-start table-text">
+                                <div class="flex items-center">
+                                    <span class=" block truncate w-[90px] sm:w-auto sm:max-w-none"
+                                          title="{{ admin.admin_name }}">{{ admin.admin_name }}</span>
+                                </div>
+                            </td>
+                            <td class="text-start table-text">
+                                <div class="flex items-center">
+                                    <span class=" block truncate w-[60px] sm:w-auto sm:max-w-none"
+                                          title="{{ admin.role }}">{{ admin.role }}</span>
+                                </div>
+                            </td>
+                            <td class="text-start table-text">
+                                <span class="status-{{ admin.status|lower }}">{{ admin.status }}</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         {% else %}
             <div class="h-[calc(95%-48px)] flex justify-center relative">{% include "partials/tableIsEmpty.html" %}</div>
         {% endif %}
