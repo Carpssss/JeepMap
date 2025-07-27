@@ -110,7 +110,7 @@ def crew_delete(request, pk):
         crew_name = crew.crew_name
         crew.delete()
         messages.success(request, f'Crew member "{crew_name}" deleted successfully!')
-        return redirect('crew_master:list')
+        return redirect('crew_master:crew_master_list')
     return render(request, 'crewMaster/crewMaster_confirmdelete.html', {'crew': crew})
 
 @login_required

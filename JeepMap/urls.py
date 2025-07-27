@@ -27,8 +27,8 @@ urlpatterns = [
     path('dashboard/', accounts_views.home, name='home'), 
     path('', accounts_views.home, name='root'),
     path("__reload__/", include("django_browser_reload.urls")),
-    path('adminMaster/', include('adminMaster.urls')),
-    path('crewMaster/', include('crewMaster.urls')),
-    path('scheduleMaster/', include('scheduleMaster.urls')),
-    path('vehicleMaster/', include('vehicleMaster.urls')),
+    path('admin-master/', include('adminMaster.urls')),
+    path('crew-master/', include('crewMaster.urls')),
+    path('schedule-master/', include('scheduleMaster.urls')),
+    path('vehicle-master/', include('vehicleMaster.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
