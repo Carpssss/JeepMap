@@ -33,10 +33,14 @@ def fare_matrix(request, route_id):
         row = []
         for j in range(size):
             if i == j:
-                row.append(15)
+                fare = 15
             else:
-                # Approximate: fare difference from base stop
-                row.append(abs(float(stops[i].fare_from_base) - float(stops[j].fare_from_base)) + 15)
+                distance = abs(i - j)
+                if distance <= 4:
+                    fare = 15
+                else:
+                    fare = 15 + ((distance - 4) * 2.20)
+            row.append(round(fare, 2))
         matrix.append(row)
 
     zipped_matrix = zip(stops, matrix)
