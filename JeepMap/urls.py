@@ -31,4 +31,5 @@ urlpatterns = [
     path('crewMaster/', include('crewMaster.urls')),
     path('scheduleMaster/', include('scheduleMaster.urls')),
     path('vehicleMaster/', include('vehicleMaster.urls')),
+    path('routeMaster/', include('routeMaster.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

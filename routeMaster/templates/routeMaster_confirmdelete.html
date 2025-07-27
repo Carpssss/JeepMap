@@ -1,0 +1,7 @@
+<h2>Delete Route</h2>
+<p>Are you sure you want to delete route: <strong>{{ route.route_name }}</strong>?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+    <a href="{% url 'route_list' %}">Cancel</a>
+</form>
