@@ -1,0 +1,35 @@
+<h2>Create Route</h2>
+<form method="post">
+    {% csrf_token %}
+    <label>Route Name:</label>
+    <input type="text" name="route_name" required><br><br>
+
+    <h3>Stops</h3>
+    <div id="stops-container">
+        <div class="stop">
+            <label>Stop Name:</label>
+            <input type="text" name="stops[]" required>
+            <label>Fare from Base:</label>
+            <input type="number" name="fares[]" step="0.01" required>
+        </div>
+    </div>
+    <br>
+    <button type="button" onclick="addStop()">Add More</button>
+    <br><br>
+    <button type="submit">Save</button>
+</form>
+
+<script>
+function addStop() {
+    const container = document.getElementById('stops-container');
+    const div = document.createElement('div');
+    div.classList.add('stop');
+    div.innerHTML = `
+        <label>Stop Name:</label>
+        <input type="text" name="stops[]" required>
+        <label>Fare from Base:</label>
+        <input type="number" name="fares[]" step="0.01" required>
+    `;
+    container.appendChild(div);
+}
+</script>

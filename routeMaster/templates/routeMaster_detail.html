@@ -1,0 +1,19 @@
+<h2>Fare Matrix: {{ route.route_name }}</h2>
+<table border="1">
+    <tr>
+        <th></th>
+        {% for stop in stops %}
+            <th>{{ stop.name }}</th>
+        {% endfor %}
+    </tr>
+    {% for stop, row in zipped_matrix %}
+<tr>
+    <th>{{ stop.name }}</th>
+    {% for fare in row %}
+        <td>{{ fare }}</td>
+    {% endfor %}
+</tr>
+{% endfor %}
+
+</table>
+<a href="{% url 'route_list' %}">Back to Routes</a>
