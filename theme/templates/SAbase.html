@@ -28,7 +28,7 @@
             <!-- Sidebar -->
             {% include "partials/sidebar.html" %}
             <!-- Main Content -->
-            <div class="flex-1 flex flex-col transition-all duration-300 "
+            <div class="flex-1 ml-0 md:ml-64 flex flex-col transition-all duration-300 "
                  :class="{'md:ml-64': window.innerWidth >= 768, 'ml-0': window.innerWidth < 768}">
                 {% block content %}
                 {% endblock content %}

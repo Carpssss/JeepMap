@@ -15,7 +15,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
     </button>
-    <aside class="bg-[#0E343E] text-white w-64 min-h-screen flex flex-col fixed md:relative z-40 sidebar-position"
+    <aside class="bg-[#0E343E] text-white w-64 h-screen flex flex-col fixed top-0 left-0 z-40 sidebar-position"
            :class="{'-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen, 'md:translate-x-0': true}"
            x-show="sidebarOpen || window.innerWidth >= 768"
            @click.away="sidebarOpen = false"
@@ -70,8 +70,7 @@
             <div x-data="{ open: false }" class="relative">
                 <button type="button"
                         @click="open = !open"
-                        :class="{'bg-[#FFE9AC] text-[#0E343E]': open}"
-                        class="group w-full flex justify-between items-center  px-5 py-2 font-semibold font-montserrat-alternates transition {% if request.resolver_match.url_name in 'crew_master administrator schedule_master vehicle_master routes_fares' %} bg-[#F9BE4A] text-[#0E343E] font-semibold{% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                        :class="[ 'group w-full flex justify-between items-center px-5 py-2 font-semibold font-montserrat-alternates transition', open ? 'bg-[#FFE9AC] text-[#0E343E]' : '{% if request.resolver_match.url_name in 'crew_master admin_list schedule_master vehicle_master routes_fares' %} bg-[#F9BE4A] text-[#0E343E] {% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] text-white {% endif %}' ]">
                     <div class="flex items-center space-x-3">
                         <svg width="19"
                              height="20"
@@ -79,18 +78,16 @@
                              fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_2455_193)">
-                            <path d="M0 3.17529C0 2.5454 0.250223 1.94131 0.695621 1.49591C1.14102 1.05052 1.74511 0.800293 2.375 0.800293L16.625 0.800293C17.2549 0.800293 17.859 1.05052 18.3044 1.49591C18.7498 1.94131 19 2.5454 19 3.17529V17.4253C19 18.0552 18.7498 18.6593 18.3044 19.1047C17.859 19.5501 17.2549 19.8003 16.625 19.8003H2.375C1.74511 19.8003 1.14102 19.5501 0.695621 19.1047C0.250223 18.6593 0 18.0552 0 17.4253V3.17529Z" :class="[open ? 'fill-[#0E343E]':'fill-white transition-colors duration-200 group-hover:fill-[#0E343E]']" class="
-                            {% if request.resolver_match.url_name in 'crew_master administrator schedule_master vehicle_master routes_fares' %}
+                            <!--  Path 1 -->
+                            <path d="M0 3.17529C0 2.5454 0.250223 1.94131 0.695621 1.49591C1.14102 1.05052 1.74511 0.800293 2.375 0.800293L16.625 0.800293C17.2549 0.800293 17.859 1.05052 18.3044 1.49591C18.7498 1.94131 19 2.5454 19 3.17529V17.4253C19 18.0552 18.7498 18.6593 18.3044 19.1047C17.859 19.5501 17.2549 19.8003 16.625 19.8003H2.375C1.74511 19.8003 1.14102 19.5501 0.695621 19.1047C0.250223 18.6593 0 18.0552 0 17.4253V3.17529Z" class="
+                            {% if request.resolver_match.url_name in 'crew_master admin_list schedule_master vehicle_master routes_fares' %}
                                 fill-[#0E343E]
                             {% endif %}
-                            " />
+                            "  :class="open ? 'fill-[#0E343E]' : 'fill-white transition-colors duration-200 group-hover:fill-[#0E343E]'" />
                             </g>
                             <g clip-path="url(#clip1_2455_193)">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.6124 4.79817C10.2854 3.68984 8.71475 3.68984 8.38779 4.79817L8.30862 5.06734C8.25977 5.23326 8.1744 5.38616 8.05877 5.5148C7.94313 5.64344 7.80018 5.74456 7.64037 5.81076C7.48057 5.87696 7.30798 5.90655 7.13525 5.89736C6.96252 5.88818 6.79404 5.84045 6.64216 5.75767L6.39675 5.62309C5.38104 5.0705 4.27033 6.18121 4.82371 7.19613L4.9575 7.44234C5.31058 8.0915 4.97571 8.89979 4.26716 9.10879L3.998 9.18796C2.88966 9.51492 2.88966 11.0856 3.998 11.4125L4.26716 11.4917C4.43309 11.5406 4.58598 11.6259 4.71462 11.7416C4.84326 11.8572 4.94439 12.0002 5.01059 12.16C5.07679 12.3198 5.10638 12.4924 5.09719 12.6651C5.08801 12.8378 5.04027 13.0063 4.9575 13.1582L4.82291 13.4036C4.27033 14.4193 5.38104 15.53 6.39596 14.9766L6.64216 14.8428C6.79404 14.7601 6.96252 14.7123 7.13525 14.7031C7.30798 14.694 7.48057 14.7235 7.64037 14.7897C7.80018 14.8559 7.94313 14.9571 8.05877 15.0857C8.1744 15.2143 8.25977 15.3672 8.30862 15.5332L8.38779 15.8023C8.71475 16.9107 10.2854 16.9107 10.6124 15.8023L10.6915 15.5332C10.7404 15.3672 10.8258 15.2143 10.9414 15.0857C11.057 14.9571 11.2 14.8559 11.3598 14.7897C11.5196 14.7235 11.6922 14.694 11.8649 14.7031C12.0376 14.7123 12.2061 14.7601 12.358 14.8428L12.6034 14.9774C13.6191 15.53 14.7298 14.4193 14.1765 13.4044L14.0427 13.1582C13.9599 13.0063 13.9122 12.8378 13.903 12.6651C13.8938 12.4924 13.9234 12.3198 13.9896 12.16C14.0558 12.0002 14.1569 11.8572 14.2855 11.7416C14.4142 11.6259 14.5671 11.5406 14.733 11.4917L15.0022 11.4125C16.1105 11.0856 16.1105 9.51492 15.0022 9.18796L14.733 9.10879C14.5671 9.05994 14.4142 8.97457 14.2855 8.85894C14.1569 8.74331 14.0558 8.60035 13.9896 8.44054C13.9234 8.28074 13.8938 8.10815 13.903 7.93542C13.9122 7.7627 13.9599 7.59421 14.0427 7.44234L14.1772 7.19692C14.7298 6.18121 13.6191 5.0705 12.6042 5.62388L12.358 5.75767C12.2061 5.84045 12.0376 5.88818 11.8649 5.89736C11.6922 5.90655 11.5196 5.87696 11.3598 5.81076C11.2 5.74456 11.057 5.64344 10.9414 5.5148C10.8258 5.38616 10.7404 5.23326 10.6915 5.06734L10.6124 4.79817ZM9.50008 12.6198C10.1153 12.6198 10.7053 12.3755 11.1403 11.9404C11.5753 11.5054 11.8197 10.9154 11.8197 10.3003C11.8197 9.68506 11.5753 9.09507 11.1403 8.66006C10.7053 8.22505 10.1153 7.98067 9.50008 7.98067C8.8851 7.98067 8.29531 8.22497 7.86045 8.65983C7.42559 9.09469 7.18129 9.68448 7.18129 10.2995C7.18129 10.9144 7.42559 11.5042 7.86045 11.9391C8.29531 12.374 8.8851 12.6183 9.50008 12.6183V12.6198Z" :class="[open ? 'fill-[#FFE9AC]':'fill-[#0E343E] transition-colors duration-200 group-hover:fill-[#FFE9AC]']" class="
-                            {% if request.resolver_match.url_name in 'crew_master administrator schedule_master vehicle_master routes_fares' %}
-                                fill-[#F9BE4A]
-                            {% endif %}
-                            " />
+                            <!--  Path 2 -->
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.6124 4.79817C10.2854 3.68984 8.71475 3.68984 8.38779 4.79817L8.30862 5.06734C8.25977 5.23326 8.1744 5.38616 8.05877 5.5148C7.94313 5.64344 7.80018 5.74456 7.64037 5.81076C7.48057 5.87696 7.30798 5.90655 7.13525 5.89736C6.96252 5.88818 6.79404 5.84045 6.64216 5.75767L6.39675 5.62309C5.38104 5.0705 4.27033 6.18121 4.82371 7.19613L4.9575 7.44234C5.31058 8.0915 4.97571 8.89979 4.26716 9.10879L3.998 9.18796C2.88966 9.51492 2.88966 11.0856 3.998 11.4125L4.26716 11.4917C4.43309 11.5406 4.58598 11.6259 4.71462 11.7416C4.84326 11.8572 4.94439 12.0002 5.01059 12.16C5.07679 12.3198 5.10638 12.4924 5.09719 12.6651C5.08801 12.8378 5.04027 13.0063 4.9575 13.1582L4.82291 13.4036C4.27033 14.4193 5.38104 15.53 6.39596 14.9766L6.64216 14.8428C6.79404 14.7601 6.96252 14.7123 7.13525 14.7031C7.30798 14.694 7.48057 14.7235 7.64037 14.7897C7.80018 14.8559 7.94313 14.9571 8.05877 15.0857C8.1744 15.2143 8.25977 15.3672 8.30862 15.5332L8.38779 15.8023C8.71475 16.9107 10.2854 16.9107 10.6124 15.8023L10.6915 15.5332C10.7404 15.3672 10.8258 15.2143 10.9414 15.0857C11.057 14.9571 11.2 14.8559 11.3598 14.7897C11.5196 14.7235 11.6922 14.694 11.8649 14.7031C12.0376 14.7123 12.2061 14.7601 12.358 14.8428L12.6034 14.9774C13.6191 15.53 14.7298 14.4193 14.1765 13.4044L14.0427 13.1582C13.9599 13.0063 13.9122 12.8378 13.903 12.6651C13.8938 12.4924 13.9234 12.3198 13.9896 12.16C14.0558 12.0002 14.1569 11.8572 14.2855 11.7416C14.4142 11.6259 14.5671 11.5406 14.733 11.4917L15.0022 11.4125C16.1105 11.0856 16.1105 9.51492 15.0022 9.18796L14.733 9.10879C14.5671 9.05994 14.4142 8.97457 14.2855 8.85894C14.1569 8.74331 14.0558 8.60035 13.9896 8.44054C13.9234 8.28074 13.8938 8.10815 13.903 7.93542C13.9122 7.7627 13.9599 7.59421 14.0427 7.44234L14.1772 7.19692C14.7298 6.18121 13.6191 5.0705 12.6042 5.62388L12.358 5.75767C12.2061 5.84045 12.0376 5.88818 11.8649 5.89736C11.6922 5.90655 11.5196 5.87696 11.3598 5.81076C11.2 5.74456 11.057 5.64344 10.9414 5.5148C10.8258 5.38616 10.7404 5.23326 10.6915 5.06734L10.6124 4.79817ZM9.50008 12.6198C10.1153 12.6198 10.7053 12.3755 11.1403 11.9404C11.5753 11.5054 11.8197 10.9154 11.8197 10.3003C11.8197 9.68506 11.5753 9.09507 11.1403 8.66006C10.7053 8.22505 10.1153 7.98067 9.50008 7.98067C8.8851 7.98067 8.29531 8.22497 7.86045 8.65983C7.42559 9.09469 7.18129 9.68448 7.18129 10.2995C7.18129 10.9144 7.42559 11.5042 7.86045 11.9391C8.29531 12.374 8.8851 12.6183 9.50008 12.6183V12.6198Z" :class="open ? 'fill-[#FFE9AC]' : 'fill-[#0E343E] transition-colors duration-200 group-hover:fill-[#FFE9AC]'" />
                             </g>
                             <defs>
                             <clipPath id="clip0_2455_193">
@@ -101,7 +98,7 @@
                             </clipPath>
                             </defs>
                         </svg>
-                        <span class="pt-1{% if request.resolver_match.url_name == 'crew_master administrator schedule_master vehicle_master routes_fares' %} font-semibold {% else %} group-hover:text-[#0E343E] group-hover:font-semibold {% endif %}">Operation</span>
+                        <span class="pt-1{% if request.resolver_match.url_name == 'crew_master admin_list schedule_master vehicle_master routes_fares' %} font-semibold text-[#0E343E] {% endif %}">Operation</span>
                     </div>
                     <svg :class="{'rotate-180': open}"
                          class="w-4 h-4 ml-2 transition-transform"
@@ -120,11 +117,11 @@
                      x-transition:leave-start="opacity-100 translate-y-0"
                      x-transition:leave-end="opacity-0 -translate-y-0"
                      class="space-y-1 bg-[#1C404A]">
-                    <a href="#"
-                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'administrator' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                    <a href="{% url 'admin_list' %}"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'admin_list' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
                         <span class="pl-9">Administrator</span>
                     </a>
-                    <a href="#"
+                    <a href="{% url 'crew_master_list' %}"
                        class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'crew_master' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
                         <span class="pl-9">Crew Master</span>
                     </a>
@@ -288,24 +285,64 @@
         </nav>
         <!-- Logout -->
         <div class=" pb-6">
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit"
-                        class="w-full items-center group flex space-x-3 px-5 py-2 font-semibold transition text-[#F9BE4A] bg-[#0E343E] hover:bg-[#FFE9AC] hover:text-[#0E343E]">
-                    <svg width="19"
-                         height="20"
-                         viewBox="0 0 19 20"
-                         fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16.3008 3.05029C16.8129 3.05029 17.2962 3.2837 17.6465 3.68506C17.9958 4.08537 18.1875 4.62187 18.1875 5.17529V16.4253C18.1875 16.9787 17.9958 17.5152 17.6465 17.9155C17.2962 18.3169 16.8129 18.5503 16.3008 18.5503H7.57422C7.06212 18.5503 6.57882 18.3169 6.22852 17.9155C5.87915 17.5152 5.6875 16.9787 5.6875 16.4253V13.9253C5.6875 13.7034 5.7644 13.4847 5.90918 13.3188C6.05489 13.152 6.26069 13.0503 6.4834 13.0503C6.70592 13.0504 6.91103 13.1521 7.05664 13.3188C7.20142 13.4847 7.27832 13.7034 7.27832 13.9253V16.4253C7.27832 16.5349 7.31714 16.6341 7.37695 16.7026C7.4358 16.77 7.50772 16.8003 7.57422 16.8003H16.3008C16.3673 16.8003 16.4392 16.77 16.498 16.7026C16.5579 16.6341 16.5967 16.5349 16.5967 16.4253V5.17529C16.5967 5.06568 16.5579 4.96648 16.498 4.89795C16.4392 4.83057 16.3673 4.80029 16.3008 4.80029H7.57422C7.50772 4.80029 7.4358 4.83056 7.37695 4.89795C7.31714 4.96648 7.27832 5.06568 7.27832 5.17529V7.67529C7.27832 7.8972 7.20142 8.11585 7.05664 8.28174C6.91103 8.44845 6.70592 8.55016 6.4834 8.55029C6.26069 8.55029 6.05489 8.44859 5.90918 8.28174C5.7644 8.11585 5.6875 7.8972 5.6875 7.67529V5.17529C5.6875 4.62187 5.87915 4.08537 6.22852 3.68506C6.57882 3.2837 7.06212 3.05029 7.57422 3.05029H16.3008Z" class="fill-[#F9BE4A] stroke-[#F9BE4A] transition-colors duration-200 group-hover:fill-[#0E343E] group-hover:stroke-[#0E343E]" stroke-width="0.5" />
-                        <path d="M3.62012 6.55615C3.693 6.56748 3.76096 6.59506 3.82129 6.63428C3.90065 6.68593 3.96534 6.75602 4.01465 6.8335C4.064 6.91107 4.10006 6.99858 4.12402 7.08936C4.14805 7.18051 4.16016 7.27693 4.16016 7.37256C4.16014 7.46805 4.148 7.56376 4.12402 7.65479C4.1001 7.74552 4.06394 7.83307 4.01465 7.91064L2.69727 9.979H8.63672C8.845 9.97914 9.0068 10.1087 9.10449 10.2622C9.20272 10.4166 9.25 10.6106 9.25 10.8003C9.25 10.99 9.20272 11.184 9.10449 11.3384C9.0068 11.4919 8.845 11.6214 8.63672 11.6216H2.69727L4.01465 13.6899L4.0791 13.813C4.09727 13.8558 4.11208 13.9005 4.12402 13.9458C4.148 14.0368 4.16014 14.1325 4.16016 14.228C4.16016 14.3237 4.14805 14.4201 4.12402 14.5112C4.10006 14.602 4.064 14.6895 4.01465 14.7671C3.96534 14.8446 3.90066 14.9147 3.82129 14.9663C3.7409 15.0186 3.64693 15.0503 3.5459 15.0503C3.44487 15.0503 3.3509 15.0186 3.27051 14.9663C3.19114 14.9147 3.12646 14.8446 3.07715 14.7671L0.895508 11.3394C0.846071 11.2618 0.810138 11.1742 0.786133 11.0835C0.762049 10.9923 0.75 10.896 0.75 10.8003C0.75 10.7046 0.762049 10.6083 0.786133 10.5171C0.810157 10.4263 0.846987 10.3388 0.896484 10.2612H0.895508L3.07715 6.8335C3.12646 6.75602 3.19114 6.68593 3.27051 6.63428C3.3509 6.58201 3.44487 6.55029 3.5459 6.55029L3.62012 6.55615Z" class="fill-[#F9BE4A] stroke-[#F9BE4A] transition-colors duration-200 group-hover:fill-[#0E343E] group-hover:stroke-[#0E343E]"  stroke-width="0.5" />
-                    </svg>
-                    <span>Logout</span>
-                </button>
-            </form>
+            <button type="button"
+                    onclick="openLogoutModal()"
+                    class="w-full items-center group flex space-x-3 px-5 py-2 font-semibold transition text-[#F9BE4A] bg-[#0E343E] hover:bg-[#FFE9AC] hover:text-[#0E343E]">
+                <svg width="19"
+                     height="20"
+                     viewBox="0 0 19 20"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.3008 3.05029C16.8129 3.05029 17.2962 3.2837 17.6465 3.68506C17.9958 4.08537 18.1875 4.62187 18.1875 5.17529V16.4253C18.1875 16.9787 17.9958 17.5152 17.6465 17.9155C17.2962 18.3169 16.8129 18.5503 16.3008 18.5503H7.57422C7.06212 18.5503 6.57882 18.3169 6.22852 17.9155C5.87915 17.5152 5.6875 16.9787 5.6875 16.4253V13.9253C5.6875 13.7034 5.7644 13.4847 5.90918 13.3188C6.05489 13.152 6.26069 13.0503 6.4834 13.0503C6.70592 13.0504 6.91103 13.1521 7.05664 13.3188C7.20142 13.4847 7.27832 13.7034 7.27832 13.9253V16.4253C7.27832 16.5349 7.31714 16.6341 7.37695 16.7026C7.4358 16.77 7.50772 16.8003 7.57422 16.8003H16.3008C16.3673 16.8003 16.4392 16.77 16.498 16.7026C16.5579 16.6341 16.5967 16.5349 16.5967 16.4253V5.17529C16.5967 5.06568 16.5579 4.96648 16.498 4.89795C16.4392 4.83057 16.3673 4.80029 16.3008 4.80029H7.57422C7.50772 4.80029 7.4358 4.83056 7.37695 4.89795C7.31714 4.96648 7.27832 5.06568 7.27832 5.17529V7.67529C7.27832 7.8972 7.20142 8.11585 7.05664 8.28174C6.91103 8.44845 6.70592 8.55016 6.4834 8.55029C6.26069 8.55029 6.05489 8.44859 5.90918 8.28174C5.7644 8.11585 5.6875 7.8972 5.6875 7.67529V5.17529C5.6875 4.62187 5.87915 4.08537 6.22852 3.68506C6.57882 3.2837 7.06212 3.05029 7.57422 3.05029H16.3008Z" class="fill-[#F9BE4A] stroke-[#F9BE4A] transition-colors duration-200 group-hover:fill-[#0E343E] group-hover:stroke-[#0E343E]" stroke-width="0.5" />
+                    <path d="M3.62012 6.55615C3.693 6.56748 3.76096 6.59506 3.82129 6.63428C3.90065 6.68593 3.96534 6.75602 4.01465 6.8335C4.064 6.91107 4.10006 6.99858 4.12402 7.08936C4.14805 7.18051 4.16016 7.27693 4.16016 7.37256C4.16014 7.46805 4.148 7.56376 4.12402 7.65479C4.1001 7.74552 4.06394 7.83307 4.01465 7.91064L2.69727 9.979H8.63672C8.845 9.97914 9.0068 10.1087 9.10449 10.2622C9.20272 10.4166 9.25 10.6106 9.25 10.8003C9.25 10.99 9.20272 11.184 9.10449 11.3384C9.0068 11.4919 8.845 11.6214 8.63672 11.6216H2.69727L4.01465 13.6899L4.0791 13.813C4.09727 13.8558 4.11208 13.9005 4.12402 13.9458C4.148 14.0368 4.16014 14.1325 4.16016 14.228C4.16016 14.3237 4.14805 14.4201 4.12402 14.5112C4.10006 14.602 4.064 14.6895 4.01465 14.7671C3.96534 14.8446 3.90066 14.9147 3.82129 14.9663C3.7409 15.0186 3.64693 15.0503 3.5459 15.0503C3.44487 15.0503 3.3509 15.0186 3.27051 14.9663C3.19114 14.9147 3.12646 14.8446 3.07715 14.7671L0.895508 11.3394C0.846071 11.2618 0.810138 11.1742 0.786133 11.0835C0.762049 10.9923 0.75 10.896 0.75 10.8003C0.75 10.7046 0.762049 10.6083 0.786133 10.5171C0.810157 10.4263 0.846987 10.3388 0.896484 10.2612H0.895508L3.07715 6.8335C3.12646 6.75602 3.19114 6.68593 3.27051 6.63428C3.3509 6.58201 3.44487 6.55029 3.5459 6.55029L3.62012 6.55615Z" class="fill-[#F9BE4A] stroke-[#F9BE4A] transition-colors duration-200 group-hover:fill-[#0E343E] group-hover:stroke-[#0E343E]"  stroke-width="0.5" />
+                </svg>
+                <span>Logout</span>
+            </button>
         </div>
     </aside>
 </div>
+<div id="logoutConfirmationModal"
+     class="fixed inset-0 bg-black/60 backdrop-blur-[3px] hidden items-center justify-center z-[9999]">
+    <div class="bg-white w-[545px] max-w-[340px] sm:max-w-xl shadow-xl relative space-y-2 px-6 py-5 md:py-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="sm:text-base md:text-lg font-extrabold font-montserrat text-[#0E343E]">Logout?</h2>
+            <button type="button"
+                    onclick="closeLogoutModal()"
+                    class="text-gray-500 hover:text-gray-700 focus:outline-none cursor-pointer">
+                <i class="text-base sm:text-xl fas fa-times"></i>
+            </button>
+        </div>
+        <p class="text-xs sm:text-xs md:text-sm text-gray-700 mb-6">
+            Are you sure you want to logout? You will need to login again to access your account.
+        </p>
+        <div class="flex justify-end gap-2">
+            <button type="button"
+                    onclick="closeLogoutModal()"
+                    class=" text-gray-900 font-medium px-4 py-2 border-1 border-gray-300 text-[11px] md:text-[12px] lg:text-[14px] font-montserrat hover:bg-gray-400 transition cursor-pointer">
+                Cancel
+            </button>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit"
+                        class=" bg-[#0E343E] text-white font-medium px-4 py-2 text-[11px] md:text-[12px] lg:text-[14px] font-montserrat hover:bg-red-600 transition cursor-pointer">
+                    Yes,
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function openLogoutModal() {
+        document.getElementById('logoutConfirmationModal').classList.remove('hidden');
+        document.getElementById('logoutConfirmationModal').classList.add('flex');
+    }
+
+    function closeLogoutModal() {
+        document.getElementById('logoutConfirmationModal').classList.add('hidden');
+        document.getElementById('logoutConfirmationModal').classList.remove('flex');
+    }
+</script>
 <!-- Alpine.js for dropdowns (add this in your base template if not already included) -->
 <script src="//unpkg.com/alpinejs" defer></script>
 <!-- Alpine.js for dropdowns (add this in your base template if not already included) -->
@@ -314,6 +351,7 @@
     .sidebar-position {
         top: 0;
         left: 0;
+        height: 100vh;
     }
     [x-cloak] { display: none !important; }
 </style>
