@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'scheduleMaster',
     'vehicleMaster',
     'routeMaster',
+    'waybillMaster',
 ]
 
 MIDDLEWARE = [
@@ -106,12 +107,12 @@ WSGI_APPLICATION = 'JeepMap.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'jeepmap'),
-        'USER': os.environ.get('DB_USER', 'root'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'mysql123#'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '3306'),
+        'ENGINE': 'django.db.backends.mysql',       #ilagay mo na sa ENV
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 

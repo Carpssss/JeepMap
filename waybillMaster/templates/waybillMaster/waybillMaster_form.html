@@ -1,0 +1,122 @@
+
+
+{% block title %}
+    {% if object %}Edit Waybill{% else %}New Waybill{% endif %} - 
+{% endblock %}
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="fas fa-{% if object %}edit{% else %}plus{% endif %} me-2"></i>
+                    {% if object %}Edit Waybill{% else %}Create New Waybill{% endif %}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.vehicle.id_for_label }}" class="form-label">
+                                {{ form.vehicle.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.vehicle }}
+                            {% if form.vehicle.errors %}
+                                <div class="text-danger small">{{ form.vehicle.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.waybill_date.id_for_label }}" class="form-label">
+                                {{ form.waybill_date.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.waybill_date }}
+                            {% if form.waybill_date.errors %}
+                                <div class="text-danger small">{{ form.waybill_date.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.route.id_for_label }}" class="form-label">
+                                {{ form.route.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.route }}
+                            {% if form.route.errors %}
+                                <div class="text-danger small">{{ form.route.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.schedule.id_for_label }}" class="form-label">
+                                {{ form.schedule.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.schedule }}
+                            {% if form.schedule.errors %}
+                                <div class="text-danger small">{{ form.schedule.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.conductor.id_for_label }}" class="form-label">
+                                {{ form.conductor.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.conductor }}
+                            {% if form.conductor.errors %}
+                                <div class="text-danger small">{{ form.conductor.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.driver.id_for_label }}" class="form-label">
+                                {{ form.driver.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.driver }}
+                            {% if form.driver.errors %}
+                                <div class="text-danger small">{{ form.driver.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.status.id_for_label }}" class="form-label">
+                                {{ form.status.label }}
+                            </label>
+                            {{ form.status }}
+                            {% if form.status.errors %}
+                                <div class="text-danger small">{{ form.status.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.remarks.id_for_label }}" class="form-label">
+                            {{ form.remarks.label }}
+                        </label>
+                        {{ form.remarks }}
+                        {% if form.remarks.errors %}
+                            <div class="text-danger small">{{ form.remarks.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'waybill:list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to List
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>
+                            {% if object %}Update Waybill{% else %}Create Waybill{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
