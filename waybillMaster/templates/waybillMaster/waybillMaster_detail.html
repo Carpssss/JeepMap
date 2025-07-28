@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ waybill.waybill_number }} - Waybill Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3498db',
+                        secondary: '#2c3e50',
+                        accent: '#34495e'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-6 max-w-7xl">
+        <!-- Header Section -->
+        <div class="bg-gradient-to-r from-secondary to-primary text-white p-6 rounded-lg mb-6 shadow-lg">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div class="mb-4 md:mb-0">
+                    <h1 class="text-2xl md:text-3xl font-bold mb-2">
+                        <i class="fas fa-clipboard-list mr-3"></i>
+                        Waybill {{ waybill.waybill_number }}
+                    </h1>
+                    <p class="text-blue-100 text-lg">{{ waybill.waybill_date|date:"F d, Y" }}</p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <span class="bg-yellow-500 text-black px-4 py-2 rounded-full font-semibold text-center">
+                        Pending
+                    </span>
+                    <span class="bg-green-600 text-white px-4 py-2 rounded-full font-bold text-center">
+                        Total Cash Collection: {{ waybill_details.total_cash_collection|floatformat:1 }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Left Column - Main Information -->
+            <div class="space-y-6">
+                <!-- Waybill Information -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b-2 border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-800">WAYBILL INFORMATION</h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-500 mb-1">WAYBILL STATUS</label>
+                                <div class="font-semibold text-gray-900">{{ waybill.status }}</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-500 mb-1">WAYBILL DATE</label>
+                                <div class="font-semibold text-gray-900">{{ waybill.waybill_date|date:"m/d/y" }}</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-500 mb-1">COMPLETION DATE</label>
+                                <div class="font-semibold text-gray-900">
+                                    {% if waybill_details.completion_date %}
+                                        {{ waybill_details.completion_date|date:"m/d/y" }}
+                                    {% else %}
+                                        <span class="text-orange-600">Pending Completion</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-500 mb-1">WAYBILL TYPE</label>
+                                <div class="font-semibold text-gray-900">Conductor</div>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm text-gray-500 mb-1">SCHEDULE</label>
+                                <div class="font-semibold text-gray-900">{{ waybill.schedule.schedule_name }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personnel & Vehicle Details -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b-2 border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-800">PERSONNEL & VEHICLE DETAILS</h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-500 mb-1">CONDUCTOR NAME</label>
+                                <div class="font-semibold text-gray-900">{{ waybill.conductor.crew_name }}</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-500 mb-1">DRIVE NAME</label>
+                                <div class="font-semibold text-gray-900">{{ waybill.driver.crew_name }}</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-500 mb-1">ETIM</label>
+                                <div class="font-semibold text-gray-900">{{ waybill.conductor.crew_id|default:"CABSPAY001" }}</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-500 mb-1">VEHICLE NUMBER</label>
+                                <div class="font-semibold text-gray-900">{{ waybill.vehicle.vehicle_number }}</div>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm text-gray-500 mb-1">DEPOT NAME</label>
+                                <div class="font-semibold text-gray-900">{{ waybill.vehicle.depot_name|default:"CABSTRANCO" }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Financial Details -->
+            <div class="space-y-6">
+                <!-- Amount Details & Payment Method -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b-2 border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-800">Amount Details & Payment Method</h2>
+                    </div>
+                    <div class="overflow-hidden">
+                        <!-- Amount Details Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="bg-accent text-white">
+                                        <th class="px-3 py-3 text-center font-medium">Actual Amount</th>
+                                        <th class="px-3 py-3 text-center font-medium">ETIM Amount</th>
+                                        <th class="px-3 py-3 text-center font-medium">Expenses</th>
+                                        <th class="px-3 py-3 text-center font-medium">Penalty/Excess Amount</th>
+                                        <th class="px-3 py-3 text-center font-medium">Total Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-3 py-3 text-center font-medium">{{ waybill_details.actual_amount|floatformat:0 }}</td>
+                                        <td class="px-3 py-3 text-center font-medium">{{ waybill_details.etim_amount|floatformat:1 }}</td>
+                                        <td class="px-3 py-3 text-center font-medium">{{ waybill_details.expenses|floatformat:0 }}</td>
+                                        <td class="px-3 py-3 text-center font-medium">{{ waybill_details.penalty_excess_amount|floatformat:1 }}</td>
+                                        <td class="px-3 py-3 text-center font-medium">{{ waybill_details.total_sales|floatformat:1 }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Payment Method Table -->
+                        <div class="overflow-x-auto mt-4">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="bg-accent text-white">
+                                        <th class="px-3 py-3 text-center font-medium">Payment Method</th>
+                                        <th class="px-3 py-3 text-center font-medium">Passenger Count</th>
+                                        <th class="px-3 py-3 text-center font-medium">Collection</th>
+                                        <th class="px-3 py-3 text-center font-medium">Penalty/Excess Amount</th>
+                                        <th class="px-3 py-3 text-center font-medium">Total Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-3 py-3 text-center font-medium">{{ waybill_details.payment_method }}</td>
+                                        <td class="px-3 py-3 text-center font-medium">{{ waybill_details.passenger_count }}</td>
+                                        <td class="px-3 py-3 text-center font-medium">{{ waybill_details.collection|floatformat:1 }}</td>
+                                        <td class="px-3 py-3 text-center font-medium">{{ waybill_details.payment_penalty_excess|floatformat:1 }}</td>
+                                        <td class="px-3 py-3 text-center font-medium">{{ waybill_details.payment_total_sales|floatformat:1 }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b-2 border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-800">
+                            <i class="fas fa-cog mr-2"></i>Actions
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-3">
+                            <a href="{% url 'waybill:edit' waybill_details.pk %}" 
+                               class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                                <i class="fas fa-edit mr-2"></i>Edit Details
+                            </a>
+                            {% if waybill.status == 'Active' %}
+                                <button onclick="updateStatus('Completed')" 
+                                        class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                                    <i class="fas fa-check mr-2"></i>Mark as Completed
+                                </button>
+                                <button onclick="updateStatus('Cancelled')" 
+                                        class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                                    <i class="fas fa-times mr-2"></i>Cancel Waybill
+                                </button>
+                            {% endif %}
+                            <a href="{% url 'waybill:edit' waybill.pk %}" 
+                               class="w-full bg-white hover:bg-gray-50 text-blue-600 font-medium py-3 px-4 rounded-lg border-2 border-blue-600 transition-colors duration-200 flex items-center justify-center">
+                                <i class="fas fa-edit mr-2"></i>Edit Waybill
+                            </a>
+                            <a href="{% url 'waybill:list' %}" 
+                               class="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                                <i class="fas fa-arrow-left mr-2"></i>Back to List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Route & Collection Summary -->
+        <div class="mt-6">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-gray-50 px-6 py-4 border-b-2 border-gray-200">
+                    <h2 class="text-lg font-semibold text-gray-800">Route & Collection Summary</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-secondary text-white">
+                                <th class="px-4 py-3 text-center font-medium">Trip Number</th>
+                                <th class="px-4 py-3 text-center font-medium">Route Name</th>
+                                <th class="px-4 py-3 text-center font-medium">Direction</th>
+                                <th class="px-4 py-3 text-center font-medium">Passenger Count</th>
+                                <th class="px-4 py-3 text-center font-medium">Collection</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            {% for trip in waybill_trips %}
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-center font-medium">{{ trip.trip_number }}</td>
+                                <td class="px-4 py-3 text-center">{{ trip.route_name }}</td>
+                                <td class="px-4 py-3 text-center">{{ trip.direction }}</td>
+                                <td class="px-4 py-3 text-center font-medium">{{ trip.passenger_count }}</td>
+                                <td class="px-4 py-3 text-center font-medium">{{ trip.collection }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="px-4 py-8 text-center text-gray-500">
+                                    <i class="fas fa-info-circle mr-2"></i>No trips recorded yet
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% if waybill_trips %}
+                        <tfoot>
+                            <tr class="bg-blue-50 border-t-2 border-blue-200">
+                                <td colspan="3" class="px-4 py-3 text-right font-bold text-gray-800">TOTALS:</td>
+                                <td class="px-4 py-3 text-center font-bold text-gray-800">{{ total_passengers|default:0 }}</td>
+                                <td class="px-4 py-3 text-center font-bold text-gray-800">{{ total_collection|floatformat:1|default:0 }}</td>
+                            </tr>
+                        </tfoot>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateStatus(newStatus) {
+            if (confirm('Are you sure you want to change the status to ' + newStatus + '?')) {
+                // This would typically be an AJAX call to update status
+                // For now, redirect to edit page
+                window.location.href = "{% url 'waybill:edit' waybill.pk %}";
+            }
+        }
+
+        // Add interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth transitions to all buttons
+            const buttons = document.querySelectorAll('button, a');
+            buttons.forEach(button => {
+                button.classList.add('transition-all', 'duration-200');
+            });
+        });
+    </script>
+</body>
+</html>

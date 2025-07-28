@@ -1,0 +1,145 @@
+{% block title %}Waybill List{% endblock %}
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-clipboard-list me-2"></i>Waybill Management</h1>
+    <a href="{% url 'waybill:create' %}" class="btn btn-primary">
+        <i class="fas fa-plus me-1"></i>New Waybill
+    </a>
+</div>
+
+<!-- Search Form -->
+<div class="search-form">
+    <form method="get" class="row g-3">
+        <div class="col-md-4">
+            {{ search_form.search_query.label_tag }}
+            {{ search_form.search_query }}
+        </div>
+        <div class="col-md-2">
+            {{ search_form.date_from.label_tag }}
+            {{ search_form.date_from }}
+        </div>
+        <div class="col-md-2">
+            {{ search_form.date_to.label_tag }}
+            {{ search_form.date_to }}
+        </div>
+        <div class="col-md-2">
+            {{ search_form.status.label_tag }}
+            {{ search_form.status }}
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-outline-primary me-2">
+                <i class="fas fa-search"></i> Search
+            </button>
+            <a href="{% url 'waybill:list' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-times"></i> Clear
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Waybill Table -->
+<div class="card">
+    <div class="card-body">
+        {% if waybills %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Waybill Number</th>
+                            <th>Vehicle Number</th>
+                            <th>Waybill Date</th>
+                            <th>Route</th>
+                            <th>Schedule</th>
+                            <th>Conductor</th>
+                            <th>Driver</th>
+                            <th>Status</th>
+                            <th width="120">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for waybill in waybills %}
+                        <tr>
+                            <td>
+                                <strong>{{ waybill.waybill_number }}</strong>
+                            </td>
+                            <td>{{ waybill.vehicle.vehicle_number }}</td>
+                            <td>{{ waybill.waybill_date|date:"M d, Y" }}</td>
+                            <td>{{ waybill.route.route_name }}</td>
+                            <td>{{ waybill.schedule.schedule_name }}</td>
+                            <td>{{ waybill.conductor.crew_name }}</td>
+                            <td>{{ waybill.driver.crew_name }}</td>
+                            <td>
+                                {% if waybill.status == 'Active' %}
+                                    <span class="badge bg-success status-badge">{{ waybill.status }}</span>
+                                {% elif waybill.status == 'Completed' %}
+                                    <span class="badge bg-primary status-badge">{{ waybill.status }}</span>
+                                {% else %}
+                                    <span class="badge bg-danger status-badge">{{ waybill.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-actions" role="group">
+                                    <a href="{% url 'waybill:detail' waybill.pk %}" 
+                                       class="btn btn-sm btn-outline-info" title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'waybill:edit' waybill.pk %}" 
+                                       class="btn btn-sm btn-outline-primary" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'waybill:delete' waybill.pk %}" 
+                                       class="btn btn-sm btn-outline-danger" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <nav aria-label="Waybill pagination">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1{% if request.GET.search_query %}&search_query={{ request.GET.search_query }}{% endif %}">First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search_query %}&search_query={{ request.GET.search_query }}{% endif %}">Previous</a>
+                        </li>
+                    {% endif %}
+                    
+                    <li class="page-item active">
+                        <span class="page-link">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                    </li>
+                    
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search_query %}&search_query={{ request.GET.search_query }}{% endif %}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search_query %}&search_query={{ request.GET.search_query }}{% endif %}">Last</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-4">
+                <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">No waybills found</h4>
+                <p class="text-muted">Create your first waybill to get started.</p>
+                <a href="{% url 'waybill:create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i>Create Waybill
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
