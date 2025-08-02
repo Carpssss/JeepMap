@@ -70,7 +70,7 @@
             <div x-data="{ open: false }" class="relative">
                 <button type="button"
                         @click="open = !open"
-                        :class="[ 'group w-full flex justify-between items-center px-5 py-2 font-semibold font-montserrat-alternates transition', open ? 'bg-[#FFE9AC] text-[#0E343E]' : '{% if request.resolver_match.url_name in 'crew_master admin_list schedule_master vehicle_master routes_fares' %} bg-[#F9BE4A] text-[#0E343E] {% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] text-white {% endif %}' ]">
+                        :class="[ 'group w-full flex justify-between items-center px-5 py-2 font-semibold font-montserrat-alternates transition', open ? 'bg-[#FFE9AC] text-[#0E343E]' : '{% if request.resolver_match.url_name in 'crew_master admin_list schedule_master crew_master:list vehicle_master routes_fares' %} bg-[#F9BE4A] text-[#0E343E] {% else %} hover:bg-[#FFE9AC] hover:text-[#0E343E] text-white {% endif %}' ]">
                     <div class="flex items-center space-x-3">
                         <svg width="19"
                              height="20"
@@ -121,11 +121,11 @@
                        class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'admin_list' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
                         <span class="pl-9">Administrator</span>
                     </a>
-                    <a href="{% url 'crew_master:crew_master_list' %}"
-                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'crew_master' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
+                    <a href="{% url 'crew_master:list' %}"
+                       class="block px-4 py-2 text-sm transition {% if request.resolver_match.namespace == 'crew_master' and request.resolver_match.url_name == 'list' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
                         <span class="pl-9">Crew Master</span>
                     </a>
-                    <a href="#"
+                    <a href="{% url 'scheduleMaster:list' %}"
                        class="block px-4 py-2 text-sm transition {% if request.resolver_match.url_name == 'schedule_master' %} bg-[#F9BE4A] text-[#0E343E] {% else %} bg-[#1C404A] text-white hover:bg-[#FFE9AC] hover:text-[#0E343E] {% endif %}">
                         <span class="pl-9">Schedule Master</span>
                     </a>

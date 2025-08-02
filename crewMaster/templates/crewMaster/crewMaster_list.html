@@ -28,121 +28,101 @@
             </button>
         </div>
         <!-- Crew Table -->
-        <table class="w-full table-fixed bg-red-400">
-            <thead class="bg-[#0E343E] w-full text-white font-montserrat">
-                <tr>
-                    <th class="text-start table-text">
-                        <div class="flex items-center space-x-2 sm:space-x-3">
-                            <input class="border-[#F9BE4A] bg-transparent rounded cursor-pointer w-3 h-3 sm:w-4 sm:h-4"
-                                   type="checkbox" />
-                            <span class=" truncate max-w-[70px] sm:max-w-none" title="Admin ID">Crew ID</span>
-                        </div>
-                    </th>
-                    <th class="text-start table-text">
-                        <div class="flex items-center">
-                            <span class=" truncate max-w-[70px] sm:max-w-none" title="Crew Name">Crew Name</span>
-                        </div>
-                    </th>
-                    <th class="text-start table-text">
-                        <div class="flex items-center">
-                            <span class=" truncate max-w-[70px] sm:max-w-none" title="Role">Role</span>
-                        </div>
-                    </th>
-                    <th class="text-start table-text">
-                        <div class="flex items-center">
-                            <span class=" truncate max-w-[70px] sm:max-w-none" title="Crew Name">Status</span>
-                        </div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for crew in page_obj %}
+        {% if page_obj %}
+            <table class="w-full table-fixed bg-red-400">
+                <thead class="bg-[#0E343E] w-full text-white font-montserrat">
                     <tr>
-                        <td>
+                        <th class="text-start table-text">
                             <div class="flex items-center space-x-2 sm:space-x-3">
-                                <input class="border-[#0E343E] bg-transparent rounded cursor-pointer w-3 h-3 sm:w-4 sm:h-4"
-                                       type="checkbox"
-                                       value="{{ crew.pk }}">
-                                <div class="flex items-center">
-                                    <span class=" block truncate w-[90px] sm:w-auto sm:max-w-none"
-                                          title="{{ crew.crew_id }}">{{ crew.crew_id }}</span>
-                                </div>
+                                <input class="border-[#F9BE4A] bg-transparent rounded cursor-pointer w-3 h-3 sm:w-4 sm:h-4"
+                                       type="checkbox" />
+                                <span class=" truncate max-w-[70px] sm:max-w-none" title="Admin ID">Crew ID</span>
                             </div>
-                        </td>
-                        <td class="text-start table-text">
+                        </th>
+                        <th class="text-start table-text">
                             <div class="flex items-center">
-                                <span class=" block truncate w-[90px] sm:w-auto sm:max-w-none"
-                                      title="{{ crew.crew_name }}">{{ crew.crew_name }}</span>
+                                <span class=" truncate max-w-[70px] sm:max-w-none" title="Crew Name">Crew Name</span>
                             </div>
-                        </td>
-                        <td>
-                            <td class="text-start table-text">
-                                <div class="flex items-center">
-                                    <span class="role-{{ crew.role|lower }} block truncate w-[60px] sm:w-auto sm:max-w-none"
-                                          title="{{ crew.role }}">{{ crew.role }}</span>
+                        </th>
+                        <th class="text-start table-text">
+                            <div class="flex items-center">
+                                <span class=" truncate max-w-[70px] sm:max-w-none" title="Role">Role</span>
+                            </div>
+                        </th>
+                        <th class="text-start table-text">
+                            <div class="flex items-center">
+                                <span class=" truncate max-w-[70px] sm:max-w-none" title="Crew Name">Status</span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for crew in page_obj %}
+                        <tr>
+                            <td>
+                                <div class="flex items-center space-x-2 sm:space-x-3">
+                                    <input class="border-[#0E343E] bg-transparent rounded cursor-pointer w-3 h-3 sm:w-4 sm:h-4"
+                                           type="checkbox"
+                                           value="{{ crew.pk }}">
+                                    <div class="flex items-center">
+                                        <span class=" block truncate w-[90px] sm:w-auto sm:max-w-none"
+                                              title="{{ crew.crew_id }}">{{ crew.crew_id }}</span>
+                                    </div>
                                 </div>
                             </td>
-                        </td>
-                        <td>
-                            <button class="btn-toggle status-toggle" data-id="{{ crew.pk }}">
-                                <span class="status-{{ crew.status|lower }}">
-                                    <i class="fas fa-circle"></i> {{ crew.status }}
-                                </span>
-                            </button>
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a href="{% url 'crew_master:detail' crew.pk %}"
-                                   class="btn btn-info btn-sm"
-                                   title="View">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{% url 'crew_master:update' crew.pk %}"
-                                   class="btn btn-warning btn-sm"
-                                   title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <button type="button"
-                                        class="btn btn-danger btn-sm"
-                                        title="Delete"
-                                        onclick="confirmDelete('{{ crew.pk }}', '{{ crew.crew_name }}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <!-- Pagination -->
-        {% if page_obj.has_other_pages %}
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    {% if page_obj.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">First</a>
+                            <td class="text-start table-text">
+                                <div class="flex items-center">
+                                    <span class=" block truncate w-[90px] sm:w-auto sm:max-w-none"
+                                          title="{{ crew.crew_name }}">{{ crew.crew_name }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <td class="text-start table-text">
+                                    <div class="flex items-center">
+                                        <span class="role-{{ crew.role|lower }} block truncate w-[60px] sm:w-auto sm:max-w-none"
+                                              title="{{ crew.role }}">{{ crew.role }}</span>
+                                    </div>
+                                </td>
+                            </td>
+                            <td class="text-start table-text" data-id="{{ crew.pk }}">
+                                <span class="status-{{ crew.status|lower }}">{{ crew.status }}</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Previous</a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item active">
+                            <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
                         </li>
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Previous</a>
-                        </li>
-                    {% endif %}
-                    <li class="page-item active">
-                        <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-                    </li>
-                    {% if page_obj.has_next %}
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Next</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Last</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Last</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="h-[calc(95%-48px)] flex justify-center relative">{% include "partials/tableIsEmpty.html" %}</div>
         {% endif %}
     </div>
 {% endblock content %}
